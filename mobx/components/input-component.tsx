@@ -3,12 +3,14 @@ import React = require('react');
 interface IInputProp {
   name: string;
   placeholder: string;
-  onChange?: (e: { target: { value: React.SetStateAction<string>; }; }) => void;
+  onChange?: (e: { target: { value: React.SetStateAction<string> } }) => void;
   value?: string;
 }
 
 export function Input(props: IInputProp) {
   const { name, placeholder, onChange, value } = props;
+  console.log('input component');
+
   return (
     <input
       name={name}

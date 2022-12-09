@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import React=require('react');
+import React = require('react');
 
 interface IProps {
   todo: string;
@@ -9,6 +9,7 @@ interface IProps {
 
 function TodoView(props: IProps) {
   const { todo } = props;
+  console.log('todo view');
 
   return (
     <div>

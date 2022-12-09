@@ -5,6 +5,7 @@ import TodoView from './todo/todo-view';
 import UserInput from './todo/user-input';
 
 function Todos() {
+  console.log('todos');
   return (
     <div>
       <UserInput />

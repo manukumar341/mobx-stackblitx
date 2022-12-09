@@ -3,6 +3,7 @@ import './style.css';
 import Todos from './mobx/todos';
 
 export default function App() {
+  console.log('App');
   return (
     <div>
       <h1>Mox</h1>

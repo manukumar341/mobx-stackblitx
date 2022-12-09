@@ -1,4 +1,5 @@
 import { action, makeAutoObservable } from 'mobx';
+console.log('store');
 
 export const store = makeAutoObservable({
   data: [],

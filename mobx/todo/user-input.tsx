@@ -4,7 +4,7 @@ import { Button, Input } from '../components';
 import { store } from '../store';
 
 function UserInput() {
-  console.log(store.value);
+  console.log('user input');
   return (
     <div>
       <Input
