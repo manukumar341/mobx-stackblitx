@@ -1,41 +1,34 @@
 import { action, makeAutoObservable } from 'mobx';
-import { handleOnchange } from './functions';
 
-export const store = (value: any) => {
-  let val: string;
-
-  return makeAutoObservable({
-    data: [
-      {
-        userId: 1,
-        id: 1,
-        title: 'delectus aut autem',
-        completed: false,
-      },
-      {
-        userId: 1,
-        id: 4,
-        title: 'et porro tempora',
-        completed: true,
-      },
-    ],
-    value: value,
-    get getterValue() {
-      return this.value;
+export const store = makeAutoObservable({
+  data: [
+    {
+      id: 1,
+      title: 'delectus aut autem',
+      completed: false,
     },
-    set setterValue(newValue: any) {
-      this.value = { ...newValue };
+    {
+      id: 4,
+      title: 'et porro tempora',
+      completed: true,
     },
-    handleOnchange: (e: {
-      target: { value: React.SetStateAction<string> };
-    }) => {
-      val = e.target.value;
-      console.log(val);
-    },
-    get handleOnclick() {
-      this.data = val;
-      console.log(this.value);
-      return;
-    },
-  });
-};
+  ],
+  value: '',
+  get getterValue() {
+    return store.data;
+  },
+  set setterValue(newValue: any) {
+    store.data.push(newValue);
+  },
+  handleOnchange: action((e: React.ChangeEvent<HTMLInputElement>) => {
+    store.value = e.target.value;
+  }),
+  handleOnclick: action(() => {
+    store.setterValue = {
+      id: Date.now(),
+      title: store.value,
+      completed: false,
+    };
+    store.value = '';
+  }),
+});

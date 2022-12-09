@@ -1,12 +1,13 @@
 import * as React from 'react';
 import './style.css';
-import Mob from './mobx/mobxPractice';
+import Todos from './mobx/todos';
 
 export default function App() {
   return (
     <div>
       <h1>Mox</h1>
-      <Mob />
+      {/* <Mob /> */}
+      <Todos />
     </div>
   );
 }
