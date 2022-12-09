@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React = require('react');
-import { Button, Input } from '../components';
+import { MemoizedButton, Input } from '../components';
 import { store } from '../store';
 
 function UserInput() {
@@ -13,7 +13,7 @@ function UserInput() {
         onChange={store.handleOnchange}
         value={store.value}
       />
-      <Button
+      <MemoizedButton
         name={'todoAddButton'}
         type={'submit'}
         onClick={store.handleOnclick}

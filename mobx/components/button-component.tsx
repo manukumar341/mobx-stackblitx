@@ -17,5 +17,5 @@ export function Button(props: IButtonProp) {
   );
 }
 
-// export default React.memo(Button);
+export const MemoizedButton = React.memo(Button);
 //
