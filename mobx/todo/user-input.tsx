@@ -1,8 +1,10 @@
 import { observer } from 'mobx-react';
 import React = require('react');
 import { Button, Input } from '../components';
+import { store } from '../store';
 
-function UserInput(store: any) {
+function UserInput() {
+  console.log(store.value);
   return (
     <div>
       <Input
