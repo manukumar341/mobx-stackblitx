@@ -4,6 +4,7 @@ import { Input } from './components';
 import { store } from './store';
 
 const mobStore = store({ a: 45 });
+
 function Mob() {
   console.log('tttttttttttt');
   const handleOnclick = () => {
@@ -20,8 +21,12 @@ function Mob() {
   return (
     <div>
       <h3>{res}</h3>
-      <Input name={'todoInput'} placeholder="enter todo..." />
-      <button onClick={handleOnclick}>restore</button>
+      <Input
+        name={'todoInput'}
+        placeholder="enter todo..."
+        onChange={mobStore.handleOnchange}
+      />
+      <button onClick={mobStore.handleOnclick}>restore</button>
     </div>
   );
 }

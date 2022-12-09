@@ -3,7 +3,7 @@ import React = require('react');
 interface IInputProp {
   name: string;
   placeholder: string;
-  onChange?: () => void;
+  onChange?: (e: { target: { value: React.SetStateAction<string>; }; }) => void;
   value?: string;
 }
 
