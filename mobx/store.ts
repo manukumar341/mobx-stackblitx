@@ -32,8 +32,10 @@ export const store = (value: any) => {
       val = e.target.value;
       console.log(val);
     },
-    handleOnclick() {
-      this.value = val;
+    get handleOnclick() {
+      this.data = val;
+      console.log(this.value);
+      return;
     },
   });
 };
