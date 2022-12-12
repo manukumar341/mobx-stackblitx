@@ -34,6 +34,7 @@ class Store {
   handleOnchange(e: React.ChangeEvent<HTMLInputElement>) {
     console.log(e.target.value);
     const val = ' e.target.value';
+    console.log(this);
   }
 
   handleOnclick() {
@@ -42,12 +43,13 @@ class Store {
       todo: this.value,
       completed: false,
     });
+    console.log(this.data.new);
     this.value = '';
   }
 
   handleOnclickOnCheckbox(id: number) {
-    const todo = findTodoById(id)[0];
-    const filteredTodo = filterTodo(todo.completed, id);
+    const todo = findTodoById(this.data, id)[0];
+    const filteredTodo = filterTodo(this.data, todo.completed, id);
 
     if (!todo.completed) {
       todo.completed = true;
@@ -61,7 +63,7 @@ class Store {
   }
 }
 
-export const store = new Store(
+export const storeComponent = new Store(
   {
     new: [{ id: 1, todo: 'mobx', completed: false }],
     completed: [{ id: 2, todo: 'mobx key stone', completed: true }],
@@ -69,20 +71,20 @@ export const store = new Store(
   null
 );
 
-const findTodoById = (id: number) => {
-  let selectedTodo = store.data.completed.filter((item) => id === item.id);
+const findTodoById = (data: IDataProp, id: number) => {
+  let selectedTodo = data.completed.filter((item) => id === item.id);
   if (selectedTodo.length === 0) {
-    selectedTodo = store.data.new.filter((item) => id === item.id);
+    selectedTodo = data.new.filter((item) => id === item.id);
   }
   return selectedTodo;
 };
 
-const filterTodo = (isCompleted: boolean, id: number) => {
+const filterTodo = (data: IDataProp, isCompleted: boolean, id: number) => {
   let filteredTodos: Array<ITodo> = [];
   if (isCompleted) {
-    filteredTodos = store.data.completed.filter((item) => id !== item.id);
+    filteredTodos = data.completed.filter((item) => id !== item.id);
   } else {
-    filteredTodos = store.data.new.filter((item) => id !== item.id);
+    filteredTodos = data.new.filter((item) => id !== item.id);
   }
   return filteredTodos;
 };

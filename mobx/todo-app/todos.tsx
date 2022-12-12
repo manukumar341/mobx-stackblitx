@@ -1,11 +1,12 @@
 import { observer } from 'mobx-react';
 import React = require('react');
 import { ITodo } from './types';
-import { store } from './store';
+import { storeComponent } from './store';
 import Counter from '../common-components/counter';
 import TodoView from '../common-components/todo-view';
 import UserInput from './user-input';
 function Todos() {
+  const store = React.useMemo(() => storeComponent, []);
   // console.log('todos');
 
   const clickOnCheckbox = React.useCallback((e: { target: { id: string } }) => {
