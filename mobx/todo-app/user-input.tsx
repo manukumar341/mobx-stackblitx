@@ -4,8 +4,6 @@ import { MemoizedButton, MemoizedInput } from '../custom-components';
 import { store } from './store';
 
 function UserInput() {
-  console.log(store.value);
-
   const handleOnchange = React.useCallback(store.handleOnchange, []);
   const handleOnclick = React.useCallback(() => {
     store.handleOnclick();

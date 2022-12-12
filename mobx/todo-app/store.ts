@@ -1,8 +1,6 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { IDataProp, ITodo } from './types';
 
-console.log('store');
-
 class Store {
   data: IDataProp;
   value: string;
@@ -45,15 +43,21 @@ class Store {
       completed: false,
     });
     this.value = '';
-    console.log(this.value);
   }
 
   handleOnclickOnCheckbox(id: number) {
-    const completed = this.data.new.find((item) => id === item.id);
-    const newToto = this.data.new.filter((item) => id === item.id);
-    console.log(id);
-    if (completed) {
-      this.data.completed.push(completed);
+    const todo = findTodoById(id)[0];
+    const filteredTodo = filterTodo(todo.completed, id);
+    console.log(todo);
+    console.log(filteredTodo);
+    if (!todo.completed) {
+      todo.completed = true;
+      this.data.completed.push(todo);
+      this.data.new = filteredTodo;
+    } else {
+      todo.completed = false;
+      this.data.new.push(todo);
+      this.data.completed = filteredTodo;
     }
   }
 }
@@ -61,7 +65,25 @@ class Store {
 export const store = new Store(
   {
     new: [{ id: 1, todo: 'mobx', completed: false }],
-    completed: [{ id: 2, todo: 'mobx key stone', completed: false }],
+    completed: [{ id: 2, todo: 'mobx key stone', completed: true }],
   },
   null
 );
+
+const findTodoById = (id: number) => {
+  let selectedTodo = store.data.completed.filter((item) => id === item.id);
+  if (selectedTodo.length === 0) {
+    selectedTodo = store.data.new.filter((item) => id === item.id);
+  }
+  return selectedTodo;
+};
+
+const filterTodo = (isCompleted: boolean, id: number) => {
+  let filteredTodos: Array<ITodo> = [];
+  if (isCompleted) {
+    filteredTodos = store.data.completed.filter((item) => id !== item.id);
+  } else {
+    filteredTodos = store.data.new.filter((item) => id !== item.id);
+  }
+  return filteredTodos;
+};

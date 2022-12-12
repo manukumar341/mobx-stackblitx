@@ -9,11 +9,12 @@ interface IInputProp {
   onClick?: (e: any) => void;
   type: string;
   value?: string;
+  checked?: boolean;
 }
 
 export function Input(props: IInputProp) {
-  const { type, name, placeholder, onChange, value, onClick, id } = props;
-  console.log('');
+  const { type, name, placeholder, onChange, value, onClick, id, checked } =
+    props;
 
   return (
     <input
@@ -24,6 +25,7 @@ export function Input(props: IInputProp) {
       onChange={onChange}
       onClick={onClick}
       value={value}
+      checked={checked}
     />
   );
 }

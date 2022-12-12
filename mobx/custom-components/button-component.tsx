@@ -9,7 +9,6 @@ interface IButtonProp {
 
 export function Button(props: IButtonProp) {
   const { name, type, onClick, value } = props;
-  console.log('button component');
   return (
     <button name={name} type={type} onClick={onClick}>
       {value}

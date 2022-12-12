@@ -5,17 +5,14 @@ import { MemoizedInput } from '../custom-components';
 
 interface IProps {
   todo: ITodo;
-  onClick: (e: {
-    target: {
-      id: string;
-    };
-  }) => void;
+  onClick: any;
 }
 
 function TodoView(props: IProps) {
   const { todo, onClick } = props;
-  console.log('todo view');
-  console.log(todo.id.toString());
+  // console.log(todo.id.toString());
+  // const id = todo.id ? todo.id.toString() : Date.now().toString();
+  console.log(todo.completed);
   return (
     <div>
       <p key={todo.id}>
@@ -23,6 +20,7 @@ function TodoView(props: IProps) {
           type="checkbox"
           id={todo.id.toString()}
           onClick={onClick}
+          checked={todo.completed}
         />
         {todo.todo}
       </p>

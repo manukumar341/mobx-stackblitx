@@ -5,12 +5,10 @@ import { store } from './store';
 import Counter from '../common-components/counter';
 import TodoView from '../common-components/todo-view';
 import UserInput from './user-input';
-
 function Todos() {
-  console.log('todos');
+  // console.log('todos');
 
   const clickOnCheckbox = React.useCallback((e: { target: { id: string } }) => {
-    console.log(e.target.id);
     store.handleOnclickOnCheckbox(parseInt(e.target.id));
   }, []);
 
@@ -23,16 +21,23 @@ function Todos() {
   }, [store.data]);
 
   const todoList = React.useCallback(() => {
+    let isDisplayed = true;
     let list: any = [];
+    list.push(<h3>New</h3>);
+
     for (let key in store.data) {
       store.data[key].map((items: ITodo) => {
         list.push(
           <TodoView todo={items} key={items.id} onClick={clickOnCheckbox} />
         );
       });
+      if (isDisplayed) {
+        list.push(<h3>Completed</h3>);
+        isDisplayed = false;
+      }
     }
     return list;
-  }, []);
+  }, [store.data]);
 
   return (
     <div>
