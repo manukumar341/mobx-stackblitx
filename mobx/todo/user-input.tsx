@@ -1,29 +1,33 @@
 import { observer } from 'mobx-react';
 import React = require('react');
-import { MemoizedButton, Input } from '../components';
+import { MemoizedButton, MemoizedInput } from '../components';
 import { store } from '../store';
 
 function UserInput() {
   console.log('user input');
 
-  const handleOnchange = React.useCallback(() => {
-    store.handleOnchange;
-  }, [store.handleOnchange]);
+  // const handleOnchange = React.useCallback(() => {
+  //   store.handleOnchange;
+  // }, []);
+  const handleOnclick = React.useCallback(() => {
+    store.handleOnclick();
+  }, [store.handleOnclick]);
 
   const value = React.useMemo(() => store.value, [store.value]);
 
   return (
     <div>
-      <Input
+      <MemoizedInput
         name={'todoInput'}
+        type="text"
         placeholder="enter todo..."
-        onChange={handleOnchange}
-        value={'value'}
+        onChange={store.handleOnchange}
+        value={value}
       />
       <MemoizedButton
         name={'todoAddButton'}
         type={'submit'}
-        onClick={store.handleOnclick}
+        onClick={handleOnclick}
         value="Add"
       />
     </div>

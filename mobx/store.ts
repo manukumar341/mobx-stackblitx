@@ -1,8 +1,25 @@
 import { action, makeAutoObservable } from 'mobx';
+import { useCallback } from 'react';
 console.log('store');
 
+// function actions() {
+//   const getObject = useCallback((todo: string) => {
+//     return {
+//       id: Date.now(),
+//       title: todo,
+//       completed: false,
+//     };
+//   }, []);
+
+//   return getObject;
+// }
+
 export const store = makeAutoObservable({
-  data: [],
+  data: {
+    new: [],
+    inProgress: [],
+    done: [],
+  },
   value: '',
 
   get getterValue() {
@@ -10,7 +27,7 @@ export const store = makeAutoObservable({
   },
 
   set setterValue(newValue: any) {
-    store.data.push(newValue);
+    store.data.new.push(newValue);
   },
 
   handleOnchange: action((e: React.ChangeEvent<HTMLInputElement>) => {
