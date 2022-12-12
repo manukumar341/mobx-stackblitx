@@ -14,6 +14,7 @@ export const store = makeAutoObservable({
   },
 
   handleOnchange: action((e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
     store.value = e.target.value;
   }),
 

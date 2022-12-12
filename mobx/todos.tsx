@@ -12,9 +12,7 @@ function Todos() {
       {store.getterValue.map((items) => {
         return (
           <TodoView
-            todo={items.title}
-            completed={items.completed}
-            id={items.id}
+            todo={items}
             key={items.id}
           />
         );

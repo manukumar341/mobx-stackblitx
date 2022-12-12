@@ -1,10 +1,13 @@
 import { observer } from 'mobx-react';
 import React = require('react');
+interface ITodo {
+  id: number;
+  title: string;
+  completed: boolean;
+}
 
 interface IProps {
-  todo: string;
-  completed: boolean;
-  id: number;
+  todo: ITodo;
 }
 
 function TodoView(props: IProps) {
@@ -13,7 +16,7 @@ function TodoView(props: IProps) {
 
   return (
     <div>
-      <li>{todo}</li>
+      <li>{todo.title}</li>
     </div>
   );
 }
