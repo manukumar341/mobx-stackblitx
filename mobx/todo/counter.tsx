@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react';
 import { memo } from 'react';
 import React = require('react');
 
@@ -17,4 +18,4 @@ function Counter({ data }: { data: ICounterProp }) {
   );
 }
 
-export default memo(Counter);
+export default observer(Counter);

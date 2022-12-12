@@ -9,16 +9,21 @@ interface ITodo {
 
 interface IProps {
   todo: ITodo;
+  onClick: (e: {
+    target: {
+      id: string;
+    };
+  }) => void;
 }
 
 function TodoView(props: IProps) {
-  const { todo } = props;
+  const { todo, onClick } = props;
   console.log('todo view');
 
   return (
     <div>
       <p key={todo.id}>
-        <MemoizedInput type="checkbox" />
+        <MemoizedInput type="checkbox" id={todo.id} onClick={onClick}/>
         {todo.title}
       </p>
     </div>

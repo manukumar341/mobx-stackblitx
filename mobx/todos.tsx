@@ -17,7 +17,9 @@ function Todos() {
   //     );
   //   });
   // }, [store.getterValue]);
-  const a = store.data.new.length;
+  const clickOnCheckbox = React.useCallback((e: any) => {
+    store.handleOnclickOnCheckbox(parseInt(e.target.id));
+  }, []);
 
   return (
     <div>
@@ -25,7 +27,7 @@ function Todos() {
       {store.data.new.map((items) => {
         return (
           <div>
-            <TodoView todo={items} key={items.id} />
+            <TodoView todo={items} key={items.id} onClick={clickOnCheckbox} />
           </div>
         );
       })}

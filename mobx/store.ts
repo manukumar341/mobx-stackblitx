@@ -1,4 +1,4 @@
-import { action, makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable, makeObservable } from 'mobx';
 import { useCallback } from 'react';
 console.log('store');
 
@@ -14,7 +14,7 @@ console.log('store');
 //   return getObject;
 // }
 
-export const store = makeAutoObservable({
+export const store = makeObservable({
   data: {
     new: [],
     inProgress: [],
@@ -42,5 +42,9 @@ export const store = makeAutoObservable({
       completed: false,
     };
     store.value = '';
+  }),
+
+  handleOnclickOnCheckbox: action((id: number) => {
+    store.data.done.push(store.data.new.filter((item) => id === item.id));
   }),
 });
