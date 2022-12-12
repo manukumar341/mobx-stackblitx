@@ -1,11 +1,7 @@
 import { observer } from 'mobx-react';
 import React = require('react');
-import { MemoizedInput } from '../components';
-interface ITodo {
-  id: number;
-  title: string;
-  completed: boolean;
-}
+import { ITodo } from '../todo-app/types';
+import { MemoizedInput } from '../custom-components';
 
 interface IProps {
   todo: ITodo;
@@ -19,12 +15,16 @@ interface IProps {
 function TodoView(props: IProps) {
   const { todo, onClick } = props;
   console.log('todo view');
-
+  console.log(todo.id.toString());
   return (
     <div>
       <p key={todo.id}>
-        <MemoizedInput type="checkbox" id={todo.id} onClick={onClick}/>
-        {todo.title}
+        <MemoizedInput
+          type="checkbox"
+          id={todo.id.toString()}
+          onClick={onClick}
+        />
+        {todo.todo}
       </p>
     </div>
   );

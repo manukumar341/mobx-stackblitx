@@ -3,6 +3,7 @@ import { MemoizedButton } from '.';
 
 interface IInputProp {
   name?: string;
+  id?: string;
   placeholder?: string;
   onChange?: (e: { target: { value: React.SetStateAction<string> } }) => void;
   onClick?: (e: any) => void;
@@ -11,11 +12,12 @@ interface IInputProp {
 }
 
 export function Input(props: IInputProp) {
-  const { type, name, placeholder, onChange, value, onClick } = props;
-  console.log('input component');
+  const { type, name, placeholder, onChange, value, onClick, id } = props;
+  console.log('');
 
   return (
     <input
+      id={id}
       name={name}
       type={type}
       placeholder={placeholder}

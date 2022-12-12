@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './style.css';
-import Todos from './mobx/todos';
+import Todos from './mobx/todo-app/todos';
 
 export default function App() {
   console.log('App');
