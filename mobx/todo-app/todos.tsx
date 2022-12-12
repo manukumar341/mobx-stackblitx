@@ -26,6 +26,7 @@ function Todos() {
     list.push(<h3>New</h3>);
 
     for (let key in store.data) {
+      store.data[key].length === 0 ? list.push(<h6>add your todo</h6>) : null;
       store.data[key].map((items: ITodo) => {
         list.push(
           <TodoView todo={items} key={items.id} onClick={clickOnCheckbox} />

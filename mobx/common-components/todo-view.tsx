@@ -5,7 +5,7 @@ import { MemoizedInput } from '../custom-components';
 
 interface IProps {
   todo: ITodo;
-  onClick: any;
+  onClick?: any;
 }
 
 function TodoView(props: IProps) {

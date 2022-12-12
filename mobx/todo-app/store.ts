@@ -48,8 +48,7 @@ class Store {
   handleOnclickOnCheckbox(id: number) {
     const todo = findTodoById(id)[0];
     const filteredTodo = filterTodo(todo.completed, id);
-    console.log(todo);
-    console.log(filteredTodo);
+
     if (!todo.completed) {
       todo.completed = true;
       this.data.completed.push(todo);

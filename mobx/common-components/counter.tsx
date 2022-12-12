@@ -4,11 +4,11 @@ import React = require('react');
 
 function Counter({ title, count }: { title: string; count: number }) {
   return (
-    <div>
+    <span>
       <h3>
         {title}: {count}
       </h3>
-    </div>
+    </span>
   );
 }
 
