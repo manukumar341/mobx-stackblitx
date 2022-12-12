@@ -1,50 +1,59 @@
-import { action, makeAutoObservable, makeObservable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import { useCallback } from 'react';
 console.log('store');
+interface ITodo {
+  id: number;
+  todo: string;
+  completed: boolean;
+}
+interface IDataProp {
+  new: Array<ITodo>;
+  completed: Array<ITodo>;
+}
 
-// function actions() {
-//   const getObject = useCallback((todo: string) => {
-//     return {
-//       id: Date.now(),
-//       title: todo,
-//       completed: false,
-//     };
-//   }, []);
+class Store {
+  data: IDataProp;
+  value: string;
 
-//   return getObject;
-// }
-
-export const store = makeObservable({
-  data: {
-    new: [],
-    inProgress: [],
-    done: [],
-  },
-  value: '',
+  constructor(data: IDataProp, value: string) {
+    makeObservable(this, {
+      data: observable,
+      getterValue: computed,
+      setterValue: computed,
+      handleOnclick: action,
+      handleOnchange: action,
+      handleOnclickOnCheckbox: action,
+    });
+    this.data = data;
+    this.value = value;
+  }
 
   get getterValue() {
-    return store.data;
-  },
+    return this.data;
+  }
 
   set setterValue(newValue: any) {
-    store.data.new.push(newValue);
-  },
+    this.data.new.push(newValue);
+  }
 
-  handleOnchange: action((e: React.ChangeEvent<HTMLInputElement>) => {
+  handleOnchange(e: React.ChangeEvent<HTMLInputElement>) {
     console.log(e.target.value);
-    store.value = e.target.value;
-  }),
+    this.value = e.target.value;
+  }
 
-  handleOnclick: action(() => {
-    store.setterValue = {
+  handleOnclick() {
+    this.setterValue = {
       id: Date.now(),
-      title: store.value,
+      title: this.value,
       completed: false,
     };
-    store.value = '';
-  }),
+    this.value = '';
+  }
 
-  handleOnclickOnCheckbox: action((id: number) => {
-    store.data.done.push(store.data.new.filter((item) => id === item.id));
-  }),
-});
+  handleOnclickOnCheckbox(id: number) {
+    const completed = this.data.new.find((item) => id === item.id);
+    this.data.completed.push(completed);
+  }
+}
+
+export const store = new Store({ new: [], completed: [] }, '');
