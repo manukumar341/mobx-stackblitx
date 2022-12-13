@@ -15,6 +15,13 @@ function Todos() {
     store.handleOnclickOnCheckbox(parseInt(e.target.id));
   }, []);
 
+  const handleDeleteTodo = React.useCallback(
+    (e: { target: { id: string } }) => {
+      store.handleDelete(parseInt(e.target.id));
+    },
+    [store.handleDelete]
+  );
+
   const getCounts = React.useCallback(() => {
     let couters: any = [];
     for (let key in store.data) {
@@ -23,19 +30,25 @@ function Todos() {
     return couters;
   }, [store.data]);
 
-  const arrayMapper = (key: string) => {
+  const arrayMapper = React.useCallback((key: string) => {
     const list: any = [];
     store.data[key].map((items: ITodo) => {
       list.push(
-        <TodoView todo={items} key={items.id} onClick={clickOnCheckbox} />
+        <TodoView
+          todo={items}
+          key={items.id}
+          onClickCheckbox={clickOnCheckbox}
+          onClickDelete={handleDeleteTodo}
+        />
       );
     });
     return list;
-  };
+  }, []);
 
   return (
     <div>
       <UserInput />
+
       <StyledTable>
         <StyledTr>
           <th>New</th>
@@ -63,7 +76,6 @@ export default observer(Todos);
 
 const StyledTable = styled.table`
 margin:5px;
-width:300px;
 `;
 
 const StyledTr = styled.tr`
@@ -78,5 +90,5 @@ height:200px;
 `;
 
 const StyledCounter = styled(StyledTd)`
-height:50px;
+height:10px;
 `;

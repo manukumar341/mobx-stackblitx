@@ -12,6 +12,7 @@ class Store {
       handleOnclick: action,
       handleOnchange: action,
       handleOnclickOnCheckbox: action,
+      handleDelete: action,
     });
     this.data = data;
     this.value = value;
@@ -61,6 +62,14 @@ class Store {
       this.data.completed = filteredTodo;
     }
   }
+
+  handleDelete(id: number) {
+    const todo = findTodoById(this.data, id)[0];
+    const filteredTodo = filterTodo(this.data, todo.completed, id);
+    console.log(this.data);
+    this.data['new'] = filteredTodo;
+    console.log(this.data);
+  }
 }
 
 export const storeComponent = new Store(
@@ -71,7 +80,7 @@ export const storeComponent = new Store(
     ],
     completed: [{ id: 2, todo: 'mobx key stone', completed: true }],
   },
-  null
+  ' '
 );
 
 const findTodoById = (data: IDataProp, id: number) => {

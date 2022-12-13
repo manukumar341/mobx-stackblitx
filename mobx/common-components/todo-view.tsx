@@ -1,29 +1,38 @@
 import { observer } from 'mobx-react';
 import React = require('react');
 import { ITodo } from '../todo-app/types';
-import { MemoizedInput } from '../custom-components';
+import { MemoizedButton, MemoizedInput } from '../custom-components';
 
 interface IProps {
   todo: ITodo;
-  onClick?: any;
+  onClickCheckbox?: any;
+  onClickDelete?: any;
 }
 
 function TodoView(props: IProps) {
-  const { todo, onClick } = props;
+  const { todo, onClickCheckbox, onClickDelete } = props;
   // console.log(todo.id.toString());
   // const id = todo.id ? todo.id.toString() : Date.now().toString();
   console.log(todo.completed);
   return (
     <div>
-      <p key={todo.id}>
+      <div key={todo.id}>
         <MemoizedInput
           type="checkbox"
           id={todo.id.toString()}
-          onClick={onClick}
+          onClick={onClickCheckbox}
           checked={todo.completed}
         />
         {todo.todo}
-      </p>
+      </div>
+      {todo.completed ? (
+        <MemoizedButton
+          name="delete"
+          value="delete"
+          type={'button'}
+          onClick={onClickDelete}
+        />
+      ) : null}
     </div>
   );
 }
