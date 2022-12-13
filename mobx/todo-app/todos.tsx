@@ -49,7 +49,7 @@ function Todos() {
     }
     return list;
   }, [store.data]);
-
+  store.data.new = [{ id: 1, todo: 'sdfsdf', completed: false }];
   return (
     <div>
       <UserInput />
