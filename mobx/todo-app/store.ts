@@ -65,7 +65,10 @@ class Store {
 
 export const storeComponent = new Store(
   {
-    new: [{ id: 1, todo: 'mobx', completed: false }],
+    new: [
+      { id: 1, todo: 'mobx', completed: false },
+      { id: 3, todo: 'js', completed: false },
+    ],
     completed: [{ id: 2, todo: 'mobx key stone', completed: true }],
   },
   null
