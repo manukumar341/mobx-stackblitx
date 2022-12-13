@@ -5,12 +5,13 @@ interface IButtonProp {
   type: 'button' | 'submit' | 'reset';
   onClick?: () => void;
   value: string;
+  id: string;
 }
 
 export function Button(props: IButtonProp) {
-  const { name, type, onClick, value } = props;
+  const { name, type, onClick, value, id } = props;
   return (
-    <button name={name} type={type} onClick={onClick}>
+    <button name={name} type={type} onClick={onClick} id={id}>
       {value}
     </button>
   );

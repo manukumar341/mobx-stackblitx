@@ -66,9 +66,8 @@ class Store {
   handleDelete(id: number) {
     const todo = findTodoById(this.data, id)[0];
     const filteredTodo = filterTodo(this.data, todo.completed, id);
-    console.log(this.data);
-    this.data['new'] = filteredTodo;
-    console.log(this.data);
+    const status = todo.completed ? 'completed' : 'new';
+    this.data[status] = filteredTodo;
   }
 }
 

@@ -17,9 +17,10 @@ function Todos() {
 
   const handleDeleteTodo = React.useCallback(
     (e: { target: { id: string } }) => {
+      console.log(e.target);
       store.handleDelete(parseInt(e.target.id));
     },
-    [store.handleDelete]
+    []
   );
 
   const getCounts = React.useCallback(() => {

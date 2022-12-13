@@ -30,6 +30,7 @@ function TodoView(props: IProps) {
           name="delete"
           value="delete"
           type={'button'}
+          id={todo.id.toString()}
           onClick={onClickDelete}
         />
       ) : null}
