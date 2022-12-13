@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import React = require('react');
 import { MemoizedButton, MemoizedInput } from '../custom-components';
-import { storeComponent } from './store';
+import { storeComponent } from './store/store';
 
 function UserInput() {
   const store = React.useMemo(() => storeComponent, []);

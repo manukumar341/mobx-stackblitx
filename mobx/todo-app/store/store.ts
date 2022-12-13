@@ -1,36 +1,41 @@
 import { action, computed, makeObservable, observable } from 'mobx';
-import { IDataProp, ITodo } from './types';
+import { filterTodo, findTodoById } from './array-filters';
+import { IDataProp, ITodo } from '../types';
 
 class Store {
   data: IDataProp;
   value: string;
+  backup: Array<IDataProp>;
+  redo: Array<IDataProp>;
   constructor(data: IDataProp, value: string) {
     makeObservable(this, {
       data: observable,
-      getterValue: action,
-      setterValue: action,
+      backup: observable,
       handleOnclick: action,
       handleOnchange: action,
       handleOnclickOnCheckbox: action,
       handleDelete: action,
+      handleUndo: action,
+      handleRedo: action,
+      redo: observable,
     });
     this.data = data;
     this.value = value;
     this.handleOnchange = this.handleOnchange.bind(this);
+    this.backup = [this.data];
+    this.redo = [];
+    this.handleUndo = this.handleUndo.bind(this);
   }
 
-  getterValue(type?: string) {
-    if (type === 'new') {
-      return this.data.new;
-    } else if (type === 'completed') {
-      return this.data.completed;
-    } else {
-      return this.data;
+  handleRedo() {}
+
+  handleUndo() {
+    // this.data = this.backup[this.backup.length - 1];
+    // this.data = { ...this.backup[this.backup.length - 2] };
+    // this.data.completed = this.backup[0].completed;
+    for (let i = 0; i < this.backup.length; i++) {
+      console.log({ ...this.backup[i] });
     }
-  }
-
-  setterValue(newValue: ITodo) {
-    this.data.new.push(newValue);
   }
 
   handleOnchange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -59,6 +64,7 @@ class Store {
       this.data.new.push(todo);
       this.data.completed = filteredTodo;
     }
+    this.backup.push({ ...this.data });
   }
 
   handleDelete(id: number) {
@@ -66,6 +72,7 @@ class Store {
     const filteredTodo = filterTodo(this.data, todo.completed, id);
     const status = todo.completed ? 'completed' : 'new';
     this.data[status] = filteredTodo;
+    this.backup.push({ ...this.data });
   }
 }
 
@@ -79,21 +86,3 @@ export const storeComponent = new Store(
   },
   undefined
 );
-
-const findTodoById = (data: IDataProp, id: number) => {
-  let selectedTodo = data.completed.filter((item) => id === item.id);
-  if (selectedTodo.length === 0) {
-    selectedTodo = data.new.filter((item) => id === item.id);
-  }
-  return selectedTodo;
-};
-
-const filterTodo = (data: IDataProp, isCompleted: boolean, id: number) => {
-  let filteredTodos: Array<ITodo> = [];
-  if (isCompleted) {
-    filteredTodos = data.completed.filter((item) => id !== item.id);
-  } else {
-    filteredTodos = data.new.filter((item) => id !== item.id);
-  }
-  return filteredTodos;
-};
