@@ -21,11 +21,20 @@ function Todos() {
     return couters;
   }, [store.data]);
 
+  const arrayMapper = (key: string) => {
+    const list: any = [];
+    store.data[key].map((items: ITodo) => {
+      list.push(
+        <TodoView todo={items} key={items.id} onClick={clickOnCheckbox} />
+      );
+    });
+    return list;
+  };
+
   const todoList = React.useCallback(() => {
     let isDisplayed = true;
     let list: any = [];
     list.push(<h3>New</h3>);
-
     for (let key in store.data) {
       store.data[key].length === 0 ? list.push(<h6>add your todo</h6>) : null;
       store.data[key].map((items: ITodo) => {
