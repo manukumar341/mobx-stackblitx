@@ -14,7 +14,6 @@ function TodoView(props: IProps) {
   const { todo, onClickCheckbox, onClickDelete, value } = props;
   // console.log(todo.id.toString());
   // const id = todo.id ? todo.id.toString() : Date.now().toString();
-  console.log(todo.completed);
   return (
     <div>
       <div key={todo.id}>

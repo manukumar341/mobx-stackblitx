@@ -1,8 +1,15 @@
+import { observer } from 'mobx-react';
 import React = require('react');
 import { MemoizedButton } from '../custom-components';
-
+import { storeComponent } from '../todo-app/store';
 function UndoRedo() {
+  const { data } = storeComponent;
   const undoArr: any = [];
+
+  const backupUiState = React.useMemo(() => {
+    undoArr.push(data);
+    console.log(undoArr);
+  }, [data]);
   const redoArr: any = [];
 
   const handleUndoOnclick = React.useCallback(() => {
@@ -19,4 +26,4 @@ function UndoRedo() {
   );
 }
 
-export default React.memo(UndoRedo);
+export default observer(UndoRedo);

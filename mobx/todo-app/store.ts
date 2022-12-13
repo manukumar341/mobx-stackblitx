@@ -43,7 +43,7 @@ class Store {
       todo: this.value,
       completed: false,
     });
-    this.value = null;
+    this.value = undefined;
   }
 
   handleOnclickOnCheckbox(id: number) {
@@ -77,7 +77,7 @@ export const storeComponent = new Store(
     ],
     completed: [{ id: 2, todo: 'mobx key stone', completed: true }],
   },
-  null
+  undefined
 );
 
 const findTodoById = (data: IDataProp, id: number) => {

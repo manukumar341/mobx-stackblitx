@@ -6,13 +6,16 @@ import { storeComponent } from './store';
 function UserInput() {
   const store = React.useMemo(() => storeComponent, []);
 
-  const handleOnchange = React.useCallback(store.handleOnchange, []);
+  const handleOnchange = React.useCallback(store.handleOnchange, [
+    store.handleOnchange,
+  ]);
+
   const handleOnclick = React.useCallback(() => {
     store.handleOnclick();
   }, [store.handleOnclick]);
 
   const value = React.useMemo(() => store.value, [store.value]);
-
+  console.log(store.value);
   return (
     <div>
       <MemoizedInput
@@ -20,7 +23,7 @@ function UserInput() {
         type="text"
         placeholder="enter todo..."
         onChange={handleOnchange}
-        value={value}
+        value={store.value}
       />
       <MemoizedButton
         name={'todoAddButton'}

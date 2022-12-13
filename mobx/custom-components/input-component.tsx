@@ -25,7 +25,7 @@ export function Input(props: IInputProp) {
       onChange={onChange}
       onClick={onClick}
       value={value}
-      checked={checked}
+      defaultChecked={checked}
     />
   );
 }
