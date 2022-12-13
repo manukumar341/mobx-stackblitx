@@ -3,6 +3,7 @@ import { filterTodo, findTodoById } from './array-filters';
 import { IDataProp, ITodo } from '../types';
 
 class Store {
+  objOfArr: any;
   data: IDataProp;
   value: string;
   backup: Array<IDataProp>;
@@ -10,7 +11,6 @@ class Store {
   constructor(data: IDataProp, value: string) {
     makeObservable(this, {
       data: observable,
-      backup: observable,
       handleOnclick: action,
       handleOnchange: action,
       handleOnclickOnCheckbox: action,
@@ -22,13 +22,18 @@ class Store {
     this.data = data;
     this.value = value;
     this.handleOnchange = this.handleOnchange.bind(this);
-    this.backup = [this.data];
+    this.backup = [];
+    console.log('sdfssdfdsssssssssssssssssssssssssss');
     this.redo = [];
     this.handleUndo = this.handleUndo.bind(this);
+    this.objOfArr = {
+      past: [],
+      present: [],
+      feature: [],
+    };
   }
 
   handleRedo() {}
-
   handleUndo() {
     // this.data = this.backup[this.backup.length - 1];
     // this.data = { ...this.backup[this.backup.length - 2] };
@@ -43,6 +48,8 @@ class Store {
   }
 
   handleOnclick() {
+    this.backup.push({ ...this.data });
+
     this.data.new.push({
       id: Date.now(),
       todo: this.value,
@@ -52,6 +59,8 @@ class Store {
   }
 
   handleOnclickOnCheckbox(id: number) {
+    this.backup.push({ ...this.data });
+
     const todo = findTodoById(this.data, id)[0];
     const filteredTodo = filterTodo(this.data, todo.completed, id);
 
@@ -64,15 +73,15 @@ class Store {
       this.data.new.push(todo);
       this.data.completed = filteredTodo;
     }
-    this.backup.push({ ...this.data });
   }
 
   handleDelete(id: number) {
+    this.backup.push({ ...this.data });
+
     const todo = findTodoById(this.data, id)[0];
     const filteredTodo = filterTodo(this.data, todo.completed, id);
     const status = todo.completed ? 'completed' : 'new';
     this.data[status] = filteredTodo;
-    this.backup.push({ ...this.data });
   }
 }
 
