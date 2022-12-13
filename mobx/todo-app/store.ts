@@ -16,6 +16,7 @@ class Store {
     });
     this.data = data;
     this.value = value;
+    this.handleOnchange = this.handleOnchange.bind(this);
   }
 
   getterValue(type?: string) {
@@ -33,9 +34,7 @@ class Store {
   }
 
   handleOnchange(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log(e.target.value);
-    const val = ' e.target.value';
-    console.log(this);
+    this.value = e.target.value;
   }
 
   handleOnclick() {
@@ -44,8 +43,7 @@ class Store {
       todo: this.value,
       completed: false,
     });
-    console.log(this.data.new);
-    this.value = '';
+    this.value = null;
   }
 
   handleOnclickOnCheckbox(id: number) {
@@ -79,7 +77,7 @@ export const storeComponent = new Store(
     ],
     completed: [{ id: 2, todo: 'mobx key stone', completed: true }],
   },
-  ' '
+  null
 );
 
 const findTodoById = (data: IDataProp, id: number) => {

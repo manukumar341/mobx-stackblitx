@@ -20,6 +20,7 @@ function UserInput() {
         type="text"
         placeholder="enter todo..."
         onChange={handleOnchange}
+        value={value}
       />
       <MemoizedButton
         name={'todoAddButton'}

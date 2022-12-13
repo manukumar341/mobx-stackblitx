@@ -7,10 +7,11 @@ interface IProps {
   todo: ITodo;
   onClickCheckbox?: any;
   onClickDelete?: any;
+  value?: string;
 }
 
 function TodoView(props: IProps) {
-  const { todo, onClickCheckbox, onClickDelete } = props;
+  const { todo, onClickCheckbox, onClickDelete, value } = props;
   // console.log(todo.id.toString());
   // const id = todo.id ? todo.id.toString() : Date.now().toString();
   console.log(todo.completed);
@@ -22,6 +23,7 @@ function TodoView(props: IProps) {
           id={todo.id.toString()}
           onClick={onClickCheckbox}
           checked={todo.completed}
+          value={value}
         />
         {todo.todo}
       </div>

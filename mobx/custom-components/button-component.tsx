@@ -5,7 +5,7 @@ interface IButtonProp {
   type: 'button' | 'submit' | 'reset';
   onClick?: () => void;
   value: string;
-  id: string;
+  id?: string;
 }
 
 export function Button(props: IButtonProp) {
