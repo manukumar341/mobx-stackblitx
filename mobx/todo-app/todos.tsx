@@ -28,12 +28,8 @@ function Todos() {
     []
   );
 
-  const handleOnchange = React.useCallback(() => {
-    store.handleOnchange;
-  }, [store.handleOnchange]);
-
   const handleOnclick = React.useCallback(() => {
-    setOnclickOnUndoRedo(false);
+    // setOnclickOnUndoRedo(false);
     store.handleOnclick();
   }, [store.handleOnclick]);
 
@@ -81,10 +77,7 @@ function Todos() {
 
   return (
     <div>
-      <UserInput
-        handleOnchange={handleOnchange}
-        handleOnclick={handleOnclick}
-      />
+      <UserInput handleOnclick={handleOnclick} />
 
       <UndoRedo handleUndoRedoOnclick={handleUndoRedoOnclick} />
       <StyledTable>
@@ -101,7 +94,10 @@ function Todos() {
             <Counter title="new" count={getLenghtAndTodoList.newCounts} />
           </StyledCounter>
           <StyledCounter>
-            <Counter title="completed" count={getLenghtAndTodoList.newCounts} />
+            <Counter
+              title="completed"
+              count={getLenghtAndTodoList.completedCounts}
+            />
           </StyledCounter>
         </StyledTr>
       </StyledTable>
