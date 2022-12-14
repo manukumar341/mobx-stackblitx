@@ -6,8 +6,7 @@ import Counter from '../common-components/counter';
 import UserInput from './user-input';
 import UndoRedo from '../undo-redo/undo-redo';
 import styled from 'styled-components';
-import { arrayMapper } from './handlers';
-
+import arrayMapper from './handlers';
 
 function Todos() {
   const [onclickOnUndoRedo, setOnclickOnUndoRedo] = React.useState(false);
@@ -23,8 +22,7 @@ function Todos() {
 
   const viewHistory = store.history.slice(1, store.historyCount + 1);
 
-   
-  console.log(viewHistory)
+  console.log(viewHistory);
   console.log(arrayMapper(viewHistory));
   const handleTodoHistoryViews = React.useCallback(() => {
     let newTodos: any;
