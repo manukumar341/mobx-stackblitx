@@ -10,12 +10,14 @@ import styled from 'styled-components';
 function Todos() {
   const [onclickOnUndoRedo, setOnclickOnUndoRedo] = React.useState(false);
   const store = React.useMemo(() => storeComponent, []);
+  const viewHistory = store.history.slice(0, store.historyCount);
+
   const handleUndoRedoOnclick = () => {
     setOnclickOnUndoRedo(true);
   };
-
-  const viewHistory = store.history.slice(0, store.historyCount);
   console.log(viewHistory);
+  console.log(store.history.length);
+  console.log(store.historyCount);
 
   const clickOnCheckbox = React.useCallback((e: { target: { id: string } }) => {
     store.handleOnclickOnCheckbox(parseInt(e.target.id));
@@ -27,6 +29,14 @@ function Todos() {
     },
     []
   );
+
+  const handleOnchange = React.useCallback(store.handleOnchange, [
+    store.handleOnchange,
+  ]);
+
+  const handleOnclick = React.useCallback(() => {
+    store.handleOnclick();
+  }, [store.handleOnclick]);
 
   const arrayMapper = React.useCallback((array: ITodo[]) => {
     const list: any = { new: [], completed: [] };
@@ -47,7 +57,8 @@ function Todos() {
   const handleTodoHistoryViews = React.useCallback(() => {
     let newTodos: any;
     let completedTodos: any;
-
+    // newTodos = arrayMapper(store.data).new;
+    // completedTodos = arrayMapper(store.data).completed;
     if (onclickOnUndoRedo) {
       newTodos = arrayMapper(viewHistory).new;
       completedTodos = arrayMapper(viewHistory).completed;
@@ -72,7 +83,7 @@ function Todos() {
 
   return (
     <div>
-      <UserInput />
+      <UserInput handleOnchange={handleOnchange} handleOnclick={}/>
 
       <UndoRedo handleUndoRedoOnclick={handleUndoRedoOnclick} />
       <StyledTable>
