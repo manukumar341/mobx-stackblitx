@@ -14,8 +14,7 @@ function Todos() {
     setOnclickOnUndoRedo(true);
   };
 
-  const viewHistory = store.history.slice(0, store.historyCount);
-  console.log(viewHistory);
+  const viewHistory = store.history.slice(1, store.historyCount + 1);
 
   const clickOnCheckbox = React.useCallback((e: { target: { id: string } }) => {
     store.handleOnclickOnCheckbox(parseInt(e.target.id));
@@ -29,7 +28,7 @@ function Todos() {
   );
 
   const handleOnclick = React.useCallback(() => {
-    // setOnclickOnUndoRedo(false);
+    setOnclickOnUndoRedo(false);
     store.handleOnclick();
   }, [store.handleOnclick]);
 
@@ -48,14 +47,20 @@ function Todos() {
     });
     return list;
   }, []);
-
+  console.log(arrayMapper(viewHistory));
   const handleTodoHistoryViews = React.useCallback(() => {
     let newTodos: any;
     let completedTodos: any;
 
-    if (onclickOnUndoRedo) {
-      newTodos = arrayMapper(viewHistory).new;
-      completedTodos = arrayMapper(viewHistory).completed;
+    if (onclickOnUndoRedo && viewHistory !== undefined) {
+      console.log(viewHistory);
+      // console.log(store.data);
+      newTodos = [1, 2, 3, 4];
+      completedTodos = [23];
+
+      // newTodos = arrayMapper(viewHistory).new;
+      // console.log(newTodos);
+      // completedTodos = arrayMapper(viewHistory).completed;
     } else {
       newTodos = arrayMapper(store.data).new;
       completedTodos = arrayMapper(store.data).completed;
