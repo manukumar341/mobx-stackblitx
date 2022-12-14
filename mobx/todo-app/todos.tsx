@@ -21,10 +21,10 @@ function Todos() {
     []
   );
 
-  const arrayMapper = React.useCallback((key: string) => {
-    const list: any = [];
-    store.data[key].map((items: ITodo) => {
-      list.push(
+  const arrayMapper = React.useCallback(() => {
+    const list: any = { new: [], completed: [] };
+    store.data.map((items: ITodo) => {
+      let temp = (
         <TodoView
           todo={items}
           key={items.id}
@@ -32,34 +32,37 @@ function Todos() {
           onClickDelete={handleDeleteTodo}
         />
       );
+      items.completed ? list.completed.push(temp) : list.new.push(temp);
     });
     return list;
   }, []);
+
+  const newTodos = arrayMapper().new;
+  const completedTodos = arrayMapper().completed;
 
   return (
     <div>
       <UserInput />
 
+      <UndoRedo />
       <StyledTable>
         <StyledTr>
           <th>New</th>
           <th>completed</th>
         </StyledTr>
         <StyledTr>
-          <StyledTd> {arrayMapper('new')}</StyledTd>
-          <StyledTd> {arrayMapper('completed')}</StyledTd>
+          <StyledTd> {newTodos}</StyledTd>
+          <StyledTd> {completedTodos}</StyledTd>
         </StyledTr>
         <StyledTr>
           <StyledCounter>
-            <Counter title="new" count={store.data.new.length} />
+            <Counter title="new" count={newTodos.length} />
           </StyledCounter>
           <StyledCounter>
-            <Counter title="completed" count={store.data.completed.length} />
+            <Counter title="completed" count={completedTodos.length} />
           </StyledCounter>
         </StyledTr>
       </StyledTable>
-
-      <UndoRedo />
     </div>
   );
 }

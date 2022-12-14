@@ -3,12 +3,14 @@ import { filterTodo, findTodoById } from './array-filters';
 import { IDataProp, ITodo } from '../types';
 
 class Store {
-  objOfArr: any;
-  data: IDataProp;
+  data: Array<ITodo>;
   value: string;
-  backup: Array<IDataProp>;
-  redo: Array<IDataProp>;
-  constructor(data: IDataProp, value: string) {
+  backup: IDataProp;
+  history: Array<ITodo>;
+  historyCount: number;
+  temp: any;
+  a: any;
+  constructor(value?: string) {
     makeObservable(this, {
       data: observable,
       handleOnclick: action,
@@ -17,45 +19,35 @@ class Store {
       handleDelete: action,
       handleUndo: action,
       handleRedo: action,
-      redo: observable,
+      history: observable,
+      temp: observable,
+      historyCount: observable,
     });
-    this.data = data;
+
+    this.data = [];
     this.value = value;
     this.handleOnchange = this.handleOnchange.bind(this);
-    this.backup = [];
-    this.redo = [];
     this.handleUndo = this.handleUndo.bind(this);
     this.handleRedo = this.handleRedo.bind(this);
-    this.objOfArr = {
-      past: [],
-      present: {},
-      feature: [],
-    };
+    this.temp = {};
+    this.history = [];
+    this.historyCount = this.history.length;
+    console.log(this.historyCount);
   }
 
   handleRedo() {
-    if (this.objOfArr.present) {
-      this.objOfArr.past.push(this.objOfArr.present);
-      this.objOfArr.present = undefined;
+    console.log(this.history.length);
+    if (this.history.length < this.history.length - 1) {
+      this.historyCount = this.historyCount + 1;
     }
-    if (this.objOfArr.feature.length > 0) {
-      this.objOfArr.present = this.objOfArr.feature.pop();
-    }
-    console.log(this.objOfArr);
   }
   handleUndo(index: number) {
-    if (this.backup.length) {
-      this.data.completed = this.backup[0].completed;
-      this.data.new = [...this.backup[0].new];
+    console.log(this.history);
+    if (this.history.length > 0) {
+      this.historyCount = this.historyCount - 1;
     }
-    if (this.objOfArr.present) {
-      this.objOfArr.feature.push(this.objOfArr.present);
-      this.objOfArr.present = undefined;
-    }
-    if (this.objOfArr.past.length > 0) {
-      this.objOfArr.present = this.objOfArr.past.pop();
-    }
-    console.log(this.objOfArr);
+    let a = this.history;
+    a.splice(this.historyCount);
   }
 
   handleOnchange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -63,62 +55,60 @@ class Store {
   }
 
   handleOnclick() {
+    const item = { ...this.temp };
+    this.history.push(item);
+    const id = Date.now();
+    const newEntry = {
+      id: id,
+      todo: this.value,
+      completed: false,
+    };
     if (this.value) {
-      this.backup.push({ ...this.data });
-      this.data.new.push({
-        id: Date.now(),
-        todo: this.value,
-        completed: false,
-      });
-
-      if (this.objOfArr.present !== {}) {
-        this.objOfArr.past.push(this.objOfArr.present);
-      }
-      this.objOfArr.present = { ...this.data };
-      this.value = undefined;
-      console.log(this.objOfArr);
+      this.data.push({ ...newEntry });
     }
+    if (this.data.length > 0 || this.data.length > 0) {
+      const item: any = { ...this.data[this.data.length - 1] };
+      this.temp = item;
+    }
+
+    this.value = undefined;
   }
 
   handleOnclickOnCheckbox(id: number) {
-    this.backup.push({ ...this.data });
+    const item = { ...this.temp };
+    this.history.push(item);
 
-    const todo = findTodoById(this.data, id)[0];
-    const filteredTodo = filterTodo(this.data, todo.completed, id);
+    let temp: any = {};
 
-    if (!todo.completed) {
-      todo.completed = true;
-      this.data.completed.push(todo);
-      this.data.new = filteredTodo;
-    } else {
-      todo.completed = false;
-      this.data.new.push(todo);
-      this.data.completed = filteredTodo;
-    }
+    this.data.forEach((item, index) => {
+      if (item.id === id) {
+        let status = this.data[index].completed;
+        this.data[index].completed = !status;
 
-    // if (this.objOfArr.present) {
-    //   this.objOfArr.past.push(this.objOfArr.present);
-    // }
-    // this.objOfArr.present = this.data;
+        this.history.forEach((history, index) => {
+          history.id;
+        });
+
+        temp = { ...this.data[index] };
+        this.temp = temp;
+      }
+    });
+    console.log(item);
   }
 
   handleDelete(id: number) {
-    this.backup.push({ ...this.data });
+    const item = { ...this.temp };
+    this.history.push(item);
 
-    const todo = findTodoById(this.data, id)[0];
-    const filteredTodo = filterTodo(this.data, todo.completed, id);
-    const status = todo.completed ? 'completed' : 'new';
-    this.data[status] = filteredTodo;
+    this.data.forEach((item, index) => {
+      if (item.id === id) {
+        this.data.splice(index, 1);
+        this.temp = { id: item.id, todo: undefined };
+      }
+    });
+
+    // this.history.push({ ...deletedTodo });
   }
 }
 
-export const storeComponent = new Store(
-  {
-    new: [
-      { id: 1, todo: 'mobx', completed: false },
-      { id: 3, todo: 'js', completed: false },
-    ],
-    completed: [{ id: 2, todo: 'mobx key stone', completed: true }],
-  },
-  undefined
-);
+export const storeComponent = new Store(undefined);
