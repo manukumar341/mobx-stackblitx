@@ -28,6 +28,15 @@ function Todos() {
     []
   );
 
+  const handleOnchange = React.useCallback(() => {
+    store.handleOnchange;
+  }, [store.handleOnchange]);
+
+  const handleOnclick = React.useCallback(() => {
+    setOnclickOnUndoRedo(false);
+    store.handleOnclick();
+  }, [store.handleOnclick]);
+
   const arrayMapper = React.useCallback((array: ITodo[]) => {
     const list: any = { new: [], completed: [] };
     array.map((items: ITodo) => {
@@ -72,7 +81,10 @@ function Todos() {
 
   return (
     <div>
-      <UserInput />
+      <UserInput
+        handleOnchange={handleOnchange}
+        handleOnclick={handleOnclick}
+      />
 
       <UndoRedo handleUndoRedoOnclick={handleUndoRedoOnclick} />
       <StyledTable>

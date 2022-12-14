@@ -3,16 +3,14 @@ import React = require('react');
 import { MemoizedButton, MemoizedInput } from '../custom-components';
 import { storeComponent } from './store/store';
 
-function UserInput(setOnclickOnUndoRedo: any) {
+function UserInput({
+  handleOnchange,
+  handleOnclick,
+}: {
+  handleOnchange: any;
+  handleOnclick: any;
+}) {
   const store = React.useMemo(() => storeComponent, []);
-
-  const handleOnchange = React.useCallback(store.handleOnchange, [
-    store.handleOnchange,
-  ]);
-
-  const handleOnclick = React.useCallback(() => {
-    store.handleOnclick();
-  }, [store.handleOnclick]);
 
   const value = React.useMemo(() => store.value, [store.value]);
   console.log(store.value);
