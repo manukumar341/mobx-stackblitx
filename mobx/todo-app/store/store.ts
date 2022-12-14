@@ -31,23 +31,20 @@ class Store {
     this.handleRedo = this.handleRedo.bind(this);
     this.temp = {};
     this.history = [];
-    this.historyCount = this.history.length;
-    console.log(this.historyCount);
+    this.historyCount = this.history.length - 1;
   }
 
   handleRedo() {
-    console.log(this.history.length);
-    if (this.history.length < this.history.length - 1) {
+    const length = this.history.length;
+    if (this.historyCount < length) {
       this.historyCount = this.historyCount + 1;
     }
   }
+
   handleUndo(index: number) {
-    console.log(this.history);
-    if (this.history.length > 0) {
+    if (this.history.length > 0 && this.historyCount > 0) {
       this.historyCount = this.historyCount - 1;
     }
-    let a = this.history;
-    a.splice(this.historyCount);
   }
 
   handleOnchange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -57,6 +54,8 @@ class Store {
   handleOnclick() {
     const item = { ...this.temp };
     this.history.push(item);
+    this.historyCount = this.historyCount + 1;
+
     const id = Date.now();
     const newEntry = {
       id: id,
@@ -66,7 +65,7 @@ class Store {
     if (this.value) {
       this.data.push({ ...newEntry });
     }
-    if (this.data.length > 0 || this.data.length > 0) {
+    if (this.data.length > 0) {
       const item: any = { ...this.data[this.data.length - 1] };
       this.temp = item;
     }
@@ -77,7 +76,7 @@ class Store {
   handleOnclickOnCheckbox(id: number) {
     const item = { ...this.temp };
     this.history.push(item);
-
+    this.historyCount = this.historyCount + 1;
     let temp: any = {};
 
     this.data.forEach((item, index) => {
@@ -99,7 +98,7 @@ class Store {
   handleDelete(id: number) {
     const item = { ...this.temp };
     this.history.push(item);
-
+    this.historyCount = this.historyCount + 1;
     this.data.forEach((item, index) => {
       if (item.id === id) {
         this.data.splice(index, 1);

@@ -3,7 +3,7 @@ import React = require('react');
 import { MemoizedButton, MemoizedInput } from '../custom-components';
 import { storeComponent } from './store/store';
 
-function UserInput() {
+function UserInput(setOnclickOnUndoRedo: any) {
   const store = React.useMemo(() => storeComponent, []);
 
   const handleOnchange = React.useCallback(store.handleOnchange, [

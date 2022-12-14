@@ -8,7 +8,14 @@ import UserInput from './user-input';
 import UndoRedo from '../undo-redo/undo-redo';
 import styled from 'styled-components';
 function Todos() {
+  const [onclickOnUndoRedo, setOnclickOnUndoRedo] = React.useState(false);
   const store = React.useMemo(() => storeComponent, []);
+  const handleUndoRedoOnclick = () => {
+    setOnclickOnUndoRedo(true);
+  };
+
+  const viewHistory = store.history.slice(0, store.historyCount);
+  console.log(viewHistory);
 
   const clickOnCheckbox = React.useCallback((e: { target: { id: string } }) => {
     store.handleOnclickOnCheckbox(parseInt(e.target.id));
@@ -21,9 +28,9 @@ function Todos() {
     []
   );
 
-  const arrayMapper = React.useCallback(() => {
+  const arrayMapper = React.useCallback((array: ITodo[]) => {
     const list: any = { new: [], completed: [] };
-    store.data.map((items: ITodo) => {
+    array.map((items: ITodo) => {
       let temp = (
         <TodoView
           todo={items}
@@ -37,29 +44,52 @@ function Todos() {
     return list;
   }, []);
 
-  const newTodos = arrayMapper().new;
-  const completedTodos = arrayMapper().completed;
+  const handleTodoHistoryViews = React.useCallback(() => {
+    let newTodos: any;
+    let completedTodos: any;
+
+    if (onclickOnUndoRedo) {
+      newTodos = arrayMapper(viewHistory).new;
+      completedTodos = arrayMapper(viewHistory).completed;
+    } else {
+      newTodos = arrayMapper(store.data).new;
+      completedTodos = arrayMapper(store.data).completed;
+    }
+    return {
+      newTodos: newTodos,
+      completedTodos: completedTodos,
+    };
+  }, [arrayMapper, viewHistory, onclickOnUndoRedo]);
+
+  const getLenghtAndTodoList = React.useMemo(() => {
+    return {
+      newCounts: handleTodoHistoryViews().newTodos.length,
+      completedCounts: handleTodoHistoryViews().completedTodos.length,
+      new: handleTodoHistoryViews().newTodos,
+      completed: handleTodoHistoryViews().completedTodos,
+    };
+  }, [handleTodoHistoryViews]);
 
   return (
     <div>
       <UserInput />
 
-      <UndoRedo />
+      <UndoRedo handleUndoRedoOnclick={handleUndoRedoOnclick} />
       <StyledTable>
         <StyledTr>
           <th>New</th>
           <th>completed</th>
         </StyledTr>
         <StyledTr>
-          <StyledTd> {newTodos}</StyledTd>
-          <StyledTd> {completedTodos}</StyledTd>
+          <StyledTd> {getLenghtAndTodoList.new}</StyledTd>
+          <StyledTd> {getLenghtAndTodoList.completed}</StyledTd>
         </StyledTr>
         <StyledTr>
           <StyledCounter>
-            <Counter title="new" count={newTodos.length} />
+            <Counter title="new" count={getLenghtAndTodoList.newCounts} />
           </StyledCounter>
           <StyledCounter>
-            <Counter title="completed" count={completedTodos.length} />
+            <Counter title="completed" count={getLenghtAndTodoList.newCounts} />
           </StyledCounter>
         </StyledTr>
       </StyledTable>
