@@ -22,8 +22,8 @@ function Todos() {
 
   const viewHistory = store.history.slice(1, store.historyCount + 1);
 
-  console.log(viewHistory);
-  console.log(arrayMapper(viewHistory));
+  // console.log(viewHistory);
+  // console.log(arrayMapper(viewHistory));
   const handleTodoHistoryViews = React.useCallback(() => {
     let newTodos: any;
     let completedTodos: any;
@@ -35,11 +35,11 @@ function Todos() {
       completedTodos = [23];
 
       // newTodos = arrayMapper(viewHistory).new;
-      // console.log(newTodos);
+      console.log(arrayMapper(store.data).new);
       // completedTodos = arrayMapper(viewHistory).completed;
     } else {
-      newTodos = arrayMapper(store.data);
-      completedTodos = arrayMapper(store.data);
+      newTodos = arrayMapper(store.data).new;
+      completedTodos = arrayMapper(store.data).completed;
     }
     return {
       newTodos: newTodos,

@@ -11,9 +11,12 @@ export const clickOnCheckbox = (e: { target: { id: string } }) => {
 export const handleDeleteTodo = (e: { target: { id: string } }) => {
   store.handleDelete(parseInt(e.target.id));
 };
-
+interface IType {
+  new: Array<JSX.Element>;
+  completed: Array<JSX.Element>;
+}
 function arrayMapper(array: ITodo[]) {
-  const list: any = { new: [], completed: [] };
+  const list: IType = { new: [], completed: [] };
   array.map((items: ITodo) => {
     let temp = (
       <TodoView
@@ -29,4 +32,4 @@ function arrayMapper(array: ITodo[]) {
   return list;
 }
 
-export default React.memo(arrayMapper);
+export default arrayMapper;
