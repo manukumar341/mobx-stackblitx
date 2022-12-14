@@ -6,13 +6,7 @@ import { storeComponent } from './store/store';
 function UserInput(setOnclickOnUndoRedo: any) {
   const store = React.useMemo(() => storeComponent, []);
 
-  const handleOnchange = React.useCallback(store.handleOnchange, [
-    store.handleOnchange,
-  ]);
-
-  const handleOnclick = React.useCallback(() => {
-    store.handleOnclick();
-  }, [store.handleOnclick]);
+ 
 
   const value = React.useMemo(() => store.value, [store.value]);
   console.log(store.value);
