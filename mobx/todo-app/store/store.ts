@@ -62,7 +62,7 @@ class Store {
     this.value = e.target.value;
   }
 
-  async handleOnclick() {
+  handleOnclick() {
     if (this.value) {
       this.backup.push({ ...this.data });
       this.data.new.push({

@@ -21,14 +21,6 @@ function Todos() {
     []
   );
 
-  const getCounts = React.useCallback(() => {
-    let couters: any = [];
-    for (let key in store.data) {
-      couters.push(<Counter title={key} count={store.data[key].length} />);
-    }
-    return couters;
-  }, [store.data]);
-
   const arrayMapper = React.useCallback((key: string) => {
     const list: any = [];
     store.data[key].map((items: ITodo) => {

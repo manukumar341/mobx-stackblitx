@@ -5,13 +5,8 @@ import { storeComponent } from '../todo-app/store/store';
 function UndoRedo() {
   const store = storeComponent;
 
-  const undoArr: any = [];
-  const redoArr: any = [];
-
   const handleUndoOnclick = React.useCallback(() => {
-    const counter = store.backup.length - 1;
-    store.handleUndo(counter);
-    counter - 1;
+    store.handleUndo(0);
   }, []);
 
   const handleRedoOnclick = React.useCallback(() => {
