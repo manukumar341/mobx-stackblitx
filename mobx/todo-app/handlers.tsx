@@ -4,19 +4,13 @@ import { ITodo } from './types';
 import TodoView from '../common-components/todo-view';
 
 const store = storeComponent;
-export const clickOnCheckbox = React.useCallback(
-  (e: { target: { id: string } }) => {
-    store.handleOnclickOnCheckbox(parseInt(e.target.id));
-  },
-  []
-);
+export const clickOnCheckbox = (e: { target: { id: string } }) => {
+  store.handleOnclickOnCheckbox(parseInt(e.target.id));
+};
 
-export const handleDeleteTodo = React.useCallback(
-  (e: { target: { id: string } }) => {
-    store.handleDelete(parseInt(e.target.id));
-  },
-  []
-);
+export const handleDeleteTodo = (e: { target: { id: string } }) => {
+  store.handleDelete(parseInt(e.target.id));
+};
 
 function arrayMapper(array: ITodo[]) {
   const list: any = { new: [], completed: [] };

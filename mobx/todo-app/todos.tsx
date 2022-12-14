@@ -38,8 +38,8 @@ function Todos() {
       // console.log(newTodos);
       // completedTodos = arrayMapper(viewHistory).completed;
     } else {
-      newTodos = arrayMapper(store.data).new;
-      completedTodos = arrayMapper(store.data).completed;
+      newTodos = arrayMapper(store.data);
+      completedTodos = arrayMapper(store.data);
     }
     return {
       newTodos: newTodos,
