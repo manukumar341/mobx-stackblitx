@@ -3,10 +3,12 @@ import React = require('react');
 import { ITodo } from './types';
 import { storeComponent } from './store/store';
 import Counter from '../common-components/counter';
-import TodoView from '../common-components/todo-view';
 import UserInput from './user-input';
 import UndoRedo from '../undo-redo/undo-redo';
 import styled from 'styled-components';
+import { arrayMapper } from './handlers';
+
+
 function Todos() {
   const [onclickOnUndoRedo, setOnclickOnUndoRedo] = React.useState(false);
   const store = React.useMemo(() => storeComponent, []);
@@ -14,39 +16,15 @@ function Todos() {
     setOnclickOnUndoRedo(true);
   };
 
-  const viewHistory = store.history.slice(1, store.historyCount + 1);
-
-  const clickOnCheckbox = React.useCallback((e: { target: { id: string } }) => {
-    store.handleOnclickOnCheckbox(parseInt(e.target.id));
-  }, []);
-
-  const handleDeleteTodo = React.useCallback(
-    (e: { target: { id: string } }) => {
-      store.handleDelete(parseInt(e.target.id));
-    },
-    []
-  );
-
   const handleOnclick = React.useCallback(() => {
     setOnclickOnUndoRedo(false);
     store.handleOnclick();
   }, [store.handleOnclick]);
 
-  const arrayMapper = React.useCallback((array: ITodo[]) => {
-    const list: any = { new: [], completed: [] };
-    array.map((items: ITodo) => {
-      let temp = (
-        <TodoView
-          todo={items}
-          key={items.id}
-          onClickCheckbox={clickOnCheckbox}
-          onClickDelete={handleDeleteTodo}
-        />
-      );
-      items.completed ? list.completed.push(temp) : list.new.push(temp);
-    });
-    return list;
-  }, []);
+  const viewHistory = store.history.slice(1, store.historyCount + 1);
+
+   
+  console.log(viewHistory)
   console.log(arrayMapper(viewHistory));
   const handleTodoHistoryViews = React.useCallback(() => {
     let newTodos: any;
