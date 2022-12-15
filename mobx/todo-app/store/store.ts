@@ -1,5 +1,4 @@
-import { action, computed, makeObservable, observable } from 'mobx';
-import { filterTodo, findTodoById } from './array-filters';
+import { action, makeObservable, observable } from 'mobx';
 import { IDataProp, ITodo } from '../types';
 
 class Store {
@@ -9,7 +8,6 @@ class Store {
   history: Array<ITodo>;
   historyCount: number;
   temp: any;
-  a: any;
   constructor(value?: string) {
     makeObservable(this, {
       data: observable,
@@ -36,8 +34,9 @@ class Store {
 
   handleRedo() {
     const length = this.history.length;
-    if (this.historyCount < length - 1) {
+    if (this.historyCount < length) {
       this.historyCount = this.historyCount + 1;
+      console.log(length, this.historyCount);
     }
   }
 
