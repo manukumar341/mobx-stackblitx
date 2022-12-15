@@ -2,6 +2,7 @@ import React = require('react');
 import { storeComponent } from './store/store';
 import { ITodo } from './types';
 import TodoView from '../common-components/todo-view';
+import { observer } from 'mobx-react';
 
 const store = storeComponent;
 export const clickOnCheckbox = (e: { target: { id: string } }) => {
@@ -15,13 +16,9 @@ interface IType {
   new: Array<JSX.Element>;
   completed: Array<JSX.Element>;
 }
-export const findId = (arr: any, id: number) => {
-  let selectedTodo = arr.find((item) => id === item.id);
-  return selectedTodo;
-};
+
 function arrayMapper(array: ITodo[]) {
   const list: IType = { new: [], completed: [] };
-  const todoIds = [0];
 
   let temp: JSX.Element;
   array.map((items: ITodo) => {

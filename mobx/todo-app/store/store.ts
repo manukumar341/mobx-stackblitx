@@ -1,11 +1,19 @@
 import { action, makeObservable, observable } from 'mobx';
 import { IDataProp, ITodo } from '../types';
-import { findTodoById } from './array-filters';
+import { filterTodo, findTodoById } from './array-filters';
+interface IActionsKeyType {
+  key: 'delete' | 'add';
+}
+
+interface IActionsHistory {
+  IActionsKeyType: ITodo;
+}
 
 class Store {
   value: string;
-  todosArray: Array<ITodo>;
-  historyCount: number;
+  todosArray: Array<ITodo> | undefined;
+  actionsHistory: any;
+
   constructor(value?: string) {
     makeObservable(this, {
       handleOnclick: action,
@@ -15,30 +23,24 @@ class Store {
       handleUndo: action,
       handleRedo: action,
       todosArray: observable,
-      historyCount: observable,
+      actionsHistory: observable,
     });
 
     this.value = value;
+    this.actionsHistory = [];
     this.handleOnchange = this.handleOnchange.bind(this);
     this.handleUndo = this.handleUndo.bind(this);
     this.handleRedo = this.handleRedo.bind(this);
+    this.handleOnclickOnCheckbox = this.handleOnclickOnCheckbox.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.todosArray = [];
-    this.historyCount = this.todosArray.length;
   }
 
   handleRedo() {
     const length = this.todosArray.length;
-    if (this.historyCount < length) {
-      this.historyCount = this.historyCount + 1;
-      console.log(length, this.historyCount);
-    }
   }
 
-  handleUndo() {
-    if (this.historyCount > 0) {
-      this.historyCount = this.historyCount - 1;
-    }
-  }
+  handleUndo() {}
 
   handleOnchange(e: React.ChangeEvent<HTMLInputElement>) {
     this.value = e.target.value;
@@ -52,23 +54,30 @@ class Store {
       completed: false,
     };
     if (this.value) {
+      if (this.todosArray.length > 0) {
+        this.actionsHistory.push({ add: newEntry.id });
+      }
       this.todosArray.push({ ...newEntry });
-      this.historyCount = this.todosArray.length;
     }
+    console.log('this.todosArray');
+    
     this.value = undefined;
   }
 
   handleOnclickOnCheckbox(id: number) {
-    const todo = findTodoById(this.todosArray, id);
-    this.todosArray.push({ ...todo, completed: !todo.completed });
-    this.historyCount = this.todosArray.length;
+    this.todosArray.find((items, index) => {
+      if (items.id === id) {
+        this.todosArray[index].completed = !this.todosArray[index].completed;
+        this.actionsHistory.push({ completed: items.id });
+      }
+    });
   }
 
   handleDelete(id: number) {
-    const todo = findTodoById(this.todosArray, id);
-    this.todosArray.push({ ...todo, todo: undefined });
-    this.historyCount = this.todosArray.length;
+    const deltedTodo = findTodoById(this.todosArray, id);
+    const filteredTodos = filterTodo(this.todosArray, id);
+    this.todosArray = { ...filteredTodos };
+    this.actionsHistory.push({ delete: deltedTodo });
   }
 }
-
 export const storeComponent = new Store(undefined);
