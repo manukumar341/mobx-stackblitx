@@ -3,17 +3,18 @@ import React = require('react');
 import { MemoizedButton, MemoizedInput } from '../custom-components';
 import { storeComponent } from './store/store';
 
-function UserInput(setOnclickOnUndoRedo: any) {
+function UserInput() {
   const store = React.useMemo(() => storeComponent, []);
-
-  const handleOnchange = React.useCallback(store.handleOnchange, [
-    store.handleOnchange,
-  ]);
-
   const handleOnclick = React.useCallback(() => {
     store.handleOnclick();
   }, [store.handleOnclick]);
 
+  const handleOnchange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      store.handleOnchange(e);
+    },
+    [store.handleOnchange]
+  );
   const value = React.useMemo(() => store.value, [store.value]);
   console.log(store.value);
   return (
@@ -30,6 +31,7 @@ function UserInput(setOnclickOnUndoRedo: any) {
         type={'submit'}
         onClick={handleOnclick}
         value="Add"
+        styled="false"
       />
     </div>
   );
