@@ -5,9 +5,6 @@ import { storeComponent } from './store/store';
 
 function UserInput() {
   const store = React.useMemo(() => storeComponent, []);
-  const handleOnclick = React.useCallback(() => {
-    store.handleOnclick();
-  }, [store.handleOnclick]);
 
   const handleOnchange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

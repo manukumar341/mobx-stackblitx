@@ -10,13 +10,7 @@ import arrayMapper from './handlers';
 
 function Todos() {
   const store = React.useMemo(() => storeComponent, []);
-  console.log(store.historyCount);
-  const viewHistory = store.todosArray.slice(0, store.historyCount);
 
-  const handleTodoHistoryViews = React.useCallback(() => {
-    let newTodos: JSX.Element[];
-    let completedTodos: JSX.Element[];
-    if (viewHistory !== undefined) {
       newTodos = arrayMapper(viewHistory).new;
       completedTodos = arrayMapper(viewHistory).completed;
     }
@@ -37,7 +31,7 @@ function Todos() {
 
   return (
     <div>
-      <UserInput />
+      <UserInput handleOnchange={handleOnchange} handleOnclick={}/>
 
       <UndoRedo />
       <StyledTable>
