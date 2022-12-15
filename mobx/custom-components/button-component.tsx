@@ -1,4 +1,5 @@
 import React = require('react');
+import styled from 'styled-components';
 
 interface IButtonProp {
   name: string;
@@ -11,11 +12,17 @@ interface IButtonProp {
 export function Button(props: IButtonProp) {
   const { name, type, onClick, value, id } = props;
   return (
-    <button name={name} type={type} onClick={onClick} id={id}>
+    <StyledButton name={name} type={type} onClick={onClick} id={id}>
       {value}
-    </button>
+    </StyledButton>
   );
 }
 
 export const MemoizedButton = React.memo(Button);
 //
+const StyledButton = styled.button`
+border-radius:10px;
+margin-bottom:10px;
+
+color:white;
+`;
