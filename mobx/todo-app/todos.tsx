@@ -1,73 +1,55 @@
 import { observer } from 'mobx-react';
 import React = require('react');
-import { ITodo } from './types';
 import { storeComponent } from './store/store';
-import Counter from '../common-components/counter';
 import UserInput from './user-input';
-import UndoRedo from '../undo-redo/undo-redo';
 import styled from 'styled-components';
-import arrayMapper from './handlers';
+import ArrayMapper from './handlers';
+import { MemoizedButton } from '../custom-components';
 
 function Todos() {
   const store = React.useMemo(() => storeComponent, []);
-  console.log(storeComponent.todosArray);
-  const handleTodoHistoryViews = React.useCallback(() => {
-    let newTodos: JSX.Element[];
-    let completedTodos: JSX.Element[];
-    newTodos = arrayMapper(store.todosArray).new;
-    completedTodos = arrayMapper(store.todosArray).completed;
-    return {
-      newTodos: newTodos,
-      completedTodos: completedTodos,
-    };
-  }, [arrayMapper, store.todosArray]);
+  const handleUndoOnclick = React.useCallback(() => {
+    store.handleUndo();
+  }, []);
 
-  const getLenghtAndTodoList = React.useMemo(() => {
-    return {
-      newCounts: handleTodoHistoryViews().newTodos.length,
-      completedCounts: handleTodoHistoryViews().completedTodos.length,
-      new: handleTodoHistoryViews().newTodos,
-      completed: handleTodoHistoryViews().completedTodos,
-    };
-  }, [handleTodoHistoryViews]);
-
+  const handleRedoOnclick = React.useCallback(() => {
+    store.handleRedo();
+  }, []);
   return (
     <div>
-      <UserInput />
+      <MemoizedButton
+        name="undo"
+        type="button"
+        value="<"
+        onClick={handleUndoOnclick}
+      />
+      <StyledSpan>
+        <UserInput />
+      </StyledSpan>
 
-      <UndoRedo />
-      <StyledTable>
-        <StyledTr>
-          <th>New</th>
-          <th>completed</th>
-        </StyledTr>
-        <StyledTr>
-          <StyledTd> {getLenghtAndTodoList.new}</StyledTd>
-          <StyledTd> {getLenghtAndTodoList.completed}</StyledTd>
-        </StyledTr>
-        <StyledTr>
-          <StyledCounter>
-            <Counter title="new" count={getLenghtAndTodoList.newCounts} />
-          </StyledCounter>
-          <StyledCounter>
-            <Counter
-              title="completed"
-              count={getLenghtAndTodoList.completedCounts}
-            />
-          </StyledCounter>
-        </StyledTr>
-      </StyledTable>
+      <MemoizedButton
+        name="redo"
+        type="button"
+        value=">"
+        onClick={handleRedoOnclick}
+      />
+      <StyledDiv>
+        <StyledSpan>New: {store.getStatus.pending}</StyledSpan>
+        <StyledSpan>Completed: {store.getStatus.completed}</StyledSpan>
+      </StyledDiv>
+      <ArrayMapper />
     </div>
   );
 }
 export default observer(Todos);
 
-const StyledTable = styled.table`
-margin:5px;
+const StyledSpan = styled.b`
+margin:15px;
 `;
 
-const StyledTr = styled.tr`
-border:solid 1px black;
+const StyledDiv = styled.div`
+margin:15px;
+
 
 `;
 

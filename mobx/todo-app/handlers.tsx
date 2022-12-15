@@ -2,6 +2,7 @@ import React = require('react');
 import { storeComponent } from './store/store';
 import { ITodo } from './types';
 import TodoView from '../common-components/todo-view';
+import { observer } from 'mobx-react';
 
 const store = storeComponent;
 export const clickOnCheckbox = (e: { target: { id: string } }) => {
@@ -11,21 +12,10 @@ export const clickOnCheckbox = (e: { target: { id: string } }) => {
 export const handleDeleteTodo = (e: { target: { id: string } }) => {
   store.handleDelete(parseInt(e.target.id));
 };
-interface IType {
-  new: Array<JSX.Element>;
-  completed: Array<JSX.Element>;
-}
-export const findId = (arr: any, id: number) => {
-  let selectedTodo = arr.find((item) => id === item.id);
-  return selectedTodo;
-};
-function arrayMapper(array: ITodo[]) {
-  const list: IType = { new: [], completed: [] };
-  const todoIds = [0];
 
-  let temp: JSX.Element;
-  array.map((items: ITodo) => {
-    temp = (
+function ArrayMapper() {
+  const temp = store.todosArray.map((items: ITodo) => {
+    return (
       <TodoView
         todo={items}
         key={items.id}
@@ -33,10 +23,8 @@ function arrayMapper(array: ITodo[]) {
         onClickDelete={handleDeleteTodo}
       />
     );
-    items.completed ? list.completed.push(temp) : list.new.push(temp);
   });
-
-  return list;
+  return <div>{temp}</div>;
 }
 
-export default arrayMapper;
+export default observer(ArrayMapper);

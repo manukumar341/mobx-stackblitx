@@ -18,7 +18,7 @@ function UserInput() {
   const value = React.useMemo(() => store.value, [store.value]);
   console.log(store.value);
   return (
-    <div>
+    <React.Fragment>
       <MemoizedInput
         name={'todoInput'}
         type="text"
@@ -32,7 +32,7 @@ function UserInput() {
         onClick={handleOnclick}
         value="Add"
       />
-    </div>
+    </React.Fragment>
   );
 }
 
