@@ -9,43 +9,22 @@ import styled from 'styled-components';
 import arrayMapper from './handlers';
 
 function Todos() {
-  const [onclickOnUndoRedo, setOnclickOnUndoRedo] = React.useState(false);
   const store = React.useMemo(() => storeComponent, []);
-  const handleUndoRedoOnclick = () => {
-    setOnclickOnUndoRedo(true);
-  };
+  console.log(store.historyCount);
+  const viewHistory = store.history.slice(0, store.historyCount);
 
-  const handleOnclick = React.useCallback(() => {
-    setOnclickOnUndoRedo(false);
-    store.handleOnclick();
-  }, [store.handleOnclick]);
-
-  const viewHistory = store.history.slice(1, store.historyCount + 2);
-
-  console.log(viewHistory);
-  console.log(store.historyCount, store.history.length);
   const handleTodoHistoryViews = React.useCallback(() => {
-    let newTodos: any;
-    let completedTodos: any;
-
-    if (onclickOnUndoRedo && viewHistory !== undefined) {
-      console.log(viewHistory);
-      // console.log(store.data);
-      newTodos = [1, 2, 3, 4];
-      completedTodos = [23];
-
+    let newTodos: JSX.Element[];
+    let completedTodos: JSX.Element[];
+    if (viewHistory !== undefined) {
       newTodos = arrayMapper(viewHistory).new;
-      console.log(arrayMapper(store.data).new);
       completedTodos = arrayMapper(viewHistory).completed;
-    } else {
-      newTodos = arrayMapper(store.data).new;
-      completedTodos = arrayMapper(store.data).completed;
     }
     return {
       newTodos: newTodos,
       completedTodos: completedTodos,
     };
-  }, [arrayMapper, viewHistory, onclickOnUndoRedo]);
+  }, [arrayMapper, viewHistory]);
 
   const getLenghtAndTodoList = React.useMemo(() => {
     return {
@@ -58,9 +37,9 @@ function Todos() {
 
   return (
     <div>
-      <UserInput handleOnclick={handleOnclick} />
+      <UserInput />
 
-      <UndoRedo handleUndoRedoOnclick={handleUndoRedoOnclick} />
+      <UndoRedo />
       <StyledTable>
         <StyledTr>
           <th>New</th>

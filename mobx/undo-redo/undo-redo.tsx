@@ -2,21 +2,15 @@ import { observer } from 'mobx-react';
 import React = require('react');
 import { MemoizedButton } from '../custom-components';
 import { storeComponent } from '../todo-app/store/store';
-function UndoRedo({
-  handleUndoRedoOnclick,
-}: {
-  handleUndoRedoOnclick: () => void;
-}) {
+function UndoRedo() {
   const store = storeComponent;
 
   const handleUndoOnclick = React.useCallback(() => {
-    store.handleUndo(0);
-    handleUndoRedoOnclick();
+    store.handleUndo();
   }, []);
 
   const handleRedoOnclick = React.useCallback(() => {
     store.handleRedo();
-    handleUndoRedoOnclick();
   }, []);
 
   return (

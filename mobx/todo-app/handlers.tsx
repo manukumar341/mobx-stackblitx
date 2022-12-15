@@ -23,20 +23,16 @@ function arrayMapper(array: ITodo[]) {
   const list: IType = { new: [], completed: [] };
   const todoIds = [0];
 
+  let temp: JSX.Element;
   array.map((items: ITodo) => {
-    let isContains = findId(todoIds, items.id);
-    console.log(isContains);
-    let temp: JSX.Element;
-    if (!isContains) {
-      temp = (
-        <TodoView
-          todo={items}
-          key={items.id}
-          onClickCheckbox={clickOnCheckbox}
-          onClickDelete={handleDeleteTodo}
-        />
-      );
-    }
+    temp = (
+      <TodoView
+        todo={items}
+        key={items.id}
+        onClickCheckbox={clickOnCheckbox}
+        onClickDelete={handleDeleteTodo}
+      />
+    );
     items.completed ? list.completed.push(temp) : list.new.push(temp);
   });
 
