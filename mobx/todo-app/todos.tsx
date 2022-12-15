@@ -20,10 +20,10 @@ function Todos() {
     store.handleOnclick();
   }, [store.handleOnclick]);
 
-  const viewHistory = store.history.slice(1, store.historyCount + 1);
+  const viewHistory = store.history.slice(1, store.historyCount + 2);
 
-  // console.log(viewHistory);
-  // console.log(arrayMapper(viewHistory));
+  console.log(viewHistory);
+  console.log(store.historyCount, store.history.length);
   const handleTodoHistoryViews = React.useCallback(() => {
     let newTodos: any;
     let completedTodos: any;
@@ -34,9 +34,9 @@ function Todos() {
       newTodos = [1, 2, 3, 4];
       completedTodos = [23];
 
-      // newTodos = arrayMapper(viewHistory).new;
+      newTodos = arrayMapper(viewHistory).new;
       console.log(arrayMapper(store.data).new);
-      // completedTodos = arrayMapper(viewHistory).completed;
+      completedTodos = arrayMapper(viewHistory).completed;
     } else {
       newTodos = arrayMapper(store.data).new;
       completedTodos = arrayMapper(store.data).completed;

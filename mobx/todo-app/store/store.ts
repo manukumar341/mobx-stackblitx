@@ -36,7 +36,7 @@ class Store {
 
   handleRedo() {
     const length = this.history.length;
-    if (this.historyCount < length) {
+    if (this.historyCount < length - 1) {
       this.historyCount = this.historyCount + 1;
     }
   }
@@ -52,10 +52,11 @@ class Store {
   }
 
   handleOnclick() {
-    const item = { ...this.temp };
-    this.history.push(item);
-    this.historyCount = this.historyCount + 1;
-
+    if (this.temp !== {}) {
+      const item = { ...this.temp };
+      this.history.push(item);
+      this.historyCount = this.historyCount + 1;
+    }
     const id = Date.now();
     const newEntry = {
       id: id,
