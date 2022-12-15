@@ -10,20 +10,17 @@ import arrayMapper from './handlers';
 
 function Todos() {
   const store = React.useMemo(() => storeComponent, []);
-  const viewHistory = store.todosArray;
-
   const handleTodoHistoryViews = React.useCallback(() => {
     let newTodos: JSX.Element[];
     let completedTodos: JSX.Element[];
-    if (viewHistory !== undefined) {
-      newTodos = arrayMapper(viewHistory).new;
-      completedTodos = arrayMapper(viewHistory).completed;
-    }
+    console.log(store.todosArray);
+    newTodos = arrayMapper(store.todosArray).new;
+    completedTodos = arrayMapper(store.todosArray).completed;
     return {
       newTodos: newTodos,
       completedTodos: completedTodos,
     };
-  }, [arrayMapper, viewHistory]);
+  }, [arrayMapper, store.todosArray]);
 
   const getLenghtAndTodoList = React.useMemo(() => {
     return {
