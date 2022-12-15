@@ -11,7 +11,7 @@ interface IActionsHistory {
 
 class Store {
   value: string;
-  todosArray: Array<ITodo>;
+  todosArray: Array<ITodo> | undefined;
   actionsHistory: any;
 
   constructor(value?: string) {
@@ -31,6 +31,8 @@ class Store {
     this.handleOnchange = this.handleOnchange.bind(this);
     this.handleUndo = this.handleUndo.bind(this);
     this.handleRedo = this.handleRedo.bind(this);
+    this.handleOnclickOnCheckbox = this.handleOnclickOnCheckbox.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.todosArray = [];
   }
 
@@ -57,6 +59,8 @@ class Store {
       }
       this.todosArray.push({ ...newEntry });
     }
+    console.log('this.todosArray');
+    
     this.value = undefined;
   }
 
