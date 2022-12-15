@@ -12,9 +12,9 @@ interface IButtonProp {
 export function Button(props: IButtonProp) {
   const { name, type, onClick, value, id } = props;
   return (
-    <StyledButton name={name} type={type} onClick={onClick} id={id}>
+    <button name={name} type={type} onClick={onClick} id={id}>
       {value}
-    </StyledButton>
+    </button>
   );
 }
 

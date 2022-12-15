@@ -4,7 +4,7 @@ import { findTodoById } from './array-filters';
 
 class Store {
   value: string;
-  history: Array<ITodo>;
+  todosArray: Array<ITodo>;
   historyCount: number;
   constructor(value?: string) {
     makeObservable(this, {
@@ -14,7 +14,7 @@ class Store {
       handleDelete: action,
       handleUndo: action,
       handleRedo: action,
-      history: observable,
+      todosArray: observable,
       historyCount: observable,
     });
 
@@ -22,12 +22,12 @@ class Store {
     this.handleOnchange = this.handleOnchange.bind(this);
     this.handleUndo = this.handleUndo.bind(this);
     this.handleRedo = this.handleRedo.bind(this);
-    this.history = [];
-    this.historyCount = this.history.length;
+    this.todosArray = [];
+    this.historyCount = this.todosArray.length;
   }
 
   handleRedo() {
-    const length = this.history.length;
+    const length = this.todosArray.length;
     if (this.historyCount < length) {
       this.historyCount = this.historyCount + 1;
       console.log(length, this.historyCount);
@@ -52,22 +52,22 @@ class Store {
       completed: false,
     };
     if (this.value) {
-      this.history.push({ ...newEntry });
-      this.historyCount = this.history.length;
+      this.todosArray.push({ ...newEntry });
+      this.historyCount = this.todosArray.length;
     }
     this.value = undefined;
   }
 
   handleOnclickOnCheckbox(id: number) {
-    const todo = findTodoById(this.history, id);
-    this.history.push({ ...todo, completed: !todo.completed });
-    this.historyCount = this.history.length;
+    const todo = findTodoById(this.todosArray, id);
+    this.todosArray.push({ ...todo, completed: !todo.completed });
+    this.historyCount = this.todosArray.length;
   }
 
   handleDelete(id: number) {
-    const todo = findTodoById(this.history, id);
-    this.history.push({ ...todo, todo: undefined });
-    this.historyCount = this.history.length;
+    const todo = findTodoById(this.todosArray, id);
+    this.todosArray.push({ ...todo, todo: undefined });
+    this.historyCount = this.todosArray.length;
   }
 }
 

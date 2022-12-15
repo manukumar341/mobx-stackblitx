@@ -31,6 +31,7 @@ function UserInput() {
         type={'submit'}
         onClick={handleOnclick}
         value="Add"
+        styled="false"
       />
     </div>
   );
