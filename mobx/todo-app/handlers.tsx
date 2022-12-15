@@ -2,6 +2,7 @@ import React = require('react');
 import { storeComponent } from './store/store';
 import { ITodo } from './types';
 import TodoView from '../common-components/todo-view';
+import { observer } from 'mobx-react';
 
 const store = storeComponent;
 export const clickOnCheckbox = (e: { target: { id: string } }) => {
