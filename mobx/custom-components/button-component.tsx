@@ -1,4 +1,5 @@
 import React = require('react');
+import styled from 'styled-components';
 
 interface IButtonProp {
   name: string;
@@ -19,3 +20,9 @@ export function Button(props: IButtonProp) {
 
 export const MemoizedButton = React.memo(Button);
 //
+const StyledButton = styled.button`
+border-radius:10px;
+margin-bottom:10px;
+
+color:white;
+`;

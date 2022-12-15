@@ -3,74 +3,22 @@ import React = require('react');
 import { ITodo } from './types';
 import { storeComponent } from './store/store';
 import Counter from '../common-components/counter';
-import TodoView from '../common-components/todo-view';
 import UserInput from './user-input';
 import UndoRedo from '../undo-redo/undo-redo';
 import styled from 'styled-components';
+import arrayMapper from './handlers';
+
 function Todos() {
-  const [onclickOnUndoRedo, setOnclickOnUndoRedo] = React.useState(false);
   const store = React.useMemo(() => storeComponent, []);
-  const viewHistory = store.history.slice(0, store.historyCount);
 
-  const handleUndoRedoOnclick = () => {
-    setOnclickOnUndoRedo(true);
-  };
-  console.log(viewHistory);
-  console.log(store.history.length);
-  console.log(store.historyCount);
-
-  const clickOnCheckbox = React.useCallback((e: { target: { id: string } }) => {
-    store.handleOnclickOnCheckbox(parseInt(e.target.id));
-  }, []);
-
-  const handleDeleteTodo = React.useCallback(
-    (e: { target: { id: string } }) => {
-      store.handleDelete(parseInt(e.target.id));
-    },
-    []
-  );
-
-  const handleOnchange = React.useCallback(store.handleOnchange, [
-    store.handleOnchange,
-  ]);
-
-  const handleOnclick = React.useCallback(() => {
-    store.handleOnclick();
-  }, [store.handleOnclick]);
-
-  const arrayMapper = React.useCallback((array: ITodo[]) => {
-    const list: any = { new: [], completed: [] };
-    array.map((items: ITodo) => {
-      let temp = (
-        <TodoView
-          todo={items}
-          key={items.id}
-          onClickCheckbox={clickOnCheckbox}
-          onClickDelete={handleDeleteTodo}
-        />
-      );
-      items.completed ? list.completed.push(temp) : list.new.push(temp);
-    });
-    return list;
-  }, []);
-
-  const handleTodoHistoryViews = React.useCallback(() => {
-    let newTodos: any;
-    let completedTodos: any;
-    // newTodos = arrayMapper(store.data).new;
-    // completedTodos = arrayMapper(store.data).completed;
-    if (onclickOnUndoRedo) {
       newTodos = arrayMapper(viewHistory).new;
       completedTodos = arrayMapper(viewHistory).completed;
-    } else {
-      newTodos = arrayMapper(store.data).new;
-      completedTodos = arrayMapper(store.data).completed;
     }
     return {
       newTodos: newTodos,
       completedTodos: completedTodos,
     };
-  }, [arrayMapper, viewHistory, onclickOnUndoRedo]);
+  }, [arrayMapper, viewHistory]);
 
   const getLenghtAndTodoList = React.useMemo(() => {
     return {
@@ -85,7 +33,7 @@ function Todos() {
     <div>
       <UserInput handleOnchange={handleOnchange} handleOnclick={}/>
 
-      <UndoRedo handleUndoRedoOnclick={handleUndoRedoOnclick} />
+      <UndoRedo />
       <StyledTable>
         <StyledTr>
           <th>New</th>
@@ -100,7 +48,10 @@ function Todos() {
             <Counter title="new" count={getLenghtAndTodoList.newCounts} />
           </StyledCounter>
           <StyledCounter>
-            <Counter title="completed" count={getLenghtAndTodoList.newCounts} />
+            <Counter
+              title="completed"
+              count={getLenghtAndTodoList.completedCounts}
+            />
           </StyledCounter>
         </StyledTr>
       </StyledTable>

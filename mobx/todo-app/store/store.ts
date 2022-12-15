@@ -1,48 +1,41 @@
-import { action, computed, makeObservable, observable } from 'mobx';
-import { filterTodo, findTodoById } from './array-filters';
+import { action, makeObservable, observable } from 'mobx';
 import { IDataProp, ITodo } from '../types';
+import { findTodoById } from './array-filters';
 
 class Store {
-  data: Array<ITodo>;
   value: string;
-  backup: IDataProp;
-  history: Array<ITodo>;
+  todosArray: Array<ITodo>;
   historyCount: number;
-  temp: any;
-  a: any;
   constructor(value?: string) {
     makeObservable(this, {
-      data: observable,
       handleOnclick: action,
       handleOnchange: action,
       handleOnclickOnCheckbox: action,
       handleDelete: action,
       handleUndo: action,
       handleRedo: action,
-      history: observable,
-      temp: observable,
+      todosArray: observable,
       historyCount: observable,
     });
 
-    this.data = [];
     this.value = value;
     this.handleOnchange = this.handleOnchange.bind(this);
     this.handleUndo = this.handleUndo.bind(this);
     this.handleRedo = this.handleRedo.bind(this);
-    this.temp = {};
-    this.history = [];
-    this.historyCount = this.history.length - 1;
+    this.todosArray = [];
+    this.historyCount = this.todosArray.length;
   }
 
   handleRedo() {
-    const length = this.history.length;
+    const length = this.todosArray.length;
     if (this.historyCount < length) {
       this.historyCount = this.historyCount + 1;
+      console.log(length, this.historyCount);
     }
   }
 
-  handleUndo(index: number) {
-    if (this.history.length > 0 && this.historyCount > 0) {
+  handleUndo() {
+    if (this.historyCount > 0) {
       this.historyCount = this.historyCount - 1;
     }
   }
@@ -52,10 +45,6 @@ class Store {
   }
 
   handleOnclick() {
-    const item = { ...this.temp };
-    this.history.push(item);
-    this.historyCount = this.historyCount + 1;
-
     const id = Date.now();
     const newEntry = {
       id: id,
@@ -63,50 +52,22 @@ class Store {
       completed: false,
     };
     if (this.value) {
-      this.data.push({ ...newEntry });
+      this.todosArray.push({ ...newEntry });
+      this.historyCount = this.todosArray.length;
     }
-    if (this.data.length > 0) {
-      const item: any = { ...this.data[this.data.length - 1] };
-      this.temp = item;
-    }
-
     this.value = undefined;
   }
 
   handleOnclickOnCheckbox(id: number) {
-    const item = { ...this.temp };
-    this.history.push(item);
-    this.historyCount = this.historyCount + 1;
-    let temp: any = {};
-
-    this.data.forEach((item, index) => {
-      if (item.id === id) {
-        let status = this.data[index].completed;
-        this.data[index].completed = !status;
-
-        this.history.forEach((history, index) => {
-          history.id;
-        });
-
-        temp = { ...this.data[index] };
-        this.temp = temp;
-      }
-    });
-    console.log(item);
+    const todo = findTodoById(this.todosArray, id);
+    this.todosArray.push({ ...todo, completed: !todo.completed });
+    this.historyCount = this.todosArray.length;
   }
 
   handleDelete(id: number) {
-    const item = { ...this.temp };
-    this.history.push(item);
-    this.historyCount = this.historyCount + 1;
-    this.data.forEach((item, index) => {
-      if (item.id === id) {
-        this.data.splice(index, 1);
-        this.temp = { id: item.id, todo: undefined };
-      }
-    });
-
-    // this.history.push({ ...deletedTodo });
+    const todo = findTodoById(this.todosArray, id);
+    this.todosArray.push({ ...todo, todo: undefined });
+    this.historyCount = this.todosArray.length;
   }
 }
 
