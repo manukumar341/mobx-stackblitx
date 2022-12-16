@@ -7,7 +7,6 @@ class Store {
   todosArray: Array<ITodo>;
   undoActions: any;
   redoActions: any;
-  historyPosition: number;
 
   constructor(value?: string) {
     makeObservable(this, {
@@ -21,7 +20,6 @@ class Store {
       getStatus: computed,
       undoActions: observable,
       redoActions: observable,
-      historyPosition: observable,
     });
 
     this.value = value;
@@ -31,8 +29,6 @@ class Store {
     this.todosArray = [];
     this.undoActions = [];
     this.redoActions = [];
-    this.historyPosition = this.undoActions.length;
-    this.setTodoArrayByPrevius = this.setTodoArrayByPrevius.bind(this);
   }
 
   get getStatus() {
@@ -41,58 +37,11 @@ class Store {
     return { completed: completed, pending: pending };
   }
 
-  setTodoArrayByPrevius(action) {
-    switch (action) {
-      case 'add': {
-        const todo = this.undoActions[this.historyPosition];
-        const id = this.undoActions[this.historyPosition].data;
-        this.todosArray.find((item, index) => {
-          if (item.id === id) {
-            this.todosArray.splice(index, 1);
-            this.undoActions[this.historyPosition] = {
-              data: item,
-              type: 'delete',
-            };
-          }
-        });
-        break;
-      }
-      case 'markedDone': {
-        this.todosArray.find((item, index) => {
-          if (item.id === this.undoActions[this.historyPosition].data) {
-            const id = Date.now();
-            this.todosArray.splice(index, 1, {
-              ...this.todosArray[index],
-              completed: !this.todosArray[index].completed,
-            });
-            // this.undoActions[this.historyPosition].data = id;
-          }
-        });
-        break;
-      }
-      case 'delete': {
-        const item = this.undoActions[this.historyPosition];
-        this.todosArray.push(item.data);
-        this.undoActions[this.historyPosition] = {
-          data: item.data.id,
-          type: 'add',
-        };
-        break;
-      }
-    }
-  }
-
-  handleRedo() {
-    if (this.historyPosition < this.undoActions.length) {
-      this.historyPosition = this.historyPosition + 1;
-      this.setTodoArrayByPrevius(this.undoActions[this.historyPosition].type);
-    }
-  }
+  handleRedo() {}
   handleUndo() {
-    if (this.historyPosition > 0) {
-      this.historyPosition = this.historyPosition - 1;
-      this.setTodoArrayByPrevius(this.undoActions[this.historyPosition].type);
-    }
+    const todo=this.todosArray.pop()
+    this.undoActions.push(todo);
+
   }
 
   handleOnchange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -107,8 +56,6 @@ class Store {
       completed: false,
     };
     this.todosArray.push(newEntry);
-    this.undoActions.push({ type: 'add', data: newEntry.id });
-    this.historyPosition = this.undoActions.length;
     this.value = undefined;
   }
 
@@ -116,8 +63,6 @@ class Store {
     this.todosArray.find((items, index) => {
       if (items.id === id) {
         this.todosArray[index].completed = !this.todosArray[index].completed;
-        this.undoActions.push({ type: 'markedDone', data: items.id });
-        this.historyPosition = this.undoActions.length;
       }
     });
   }
@@ -126,8 +71,6 @@ class Store {
     const deltedTodo = findTodoById(this.todosArray, id);
     const filteredTodos = filterTodo(this.todosArray, id);
     this.todosArray = filteredTodos;
-    this.undoActions.push({ type: 'delete', data: deltedTodo });
-    this.historyPosition = this.undoActions.length;
   }
 }
 
