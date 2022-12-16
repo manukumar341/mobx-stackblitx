@@ -3,7 +3,7 @@ import React = require('react');
 import { storeComponent } from './store/store';
 import UserInput from './user-input';
 import styled from 'styled-components';
-import ArrayMapper from './handlers';
+import ArrayMapper from './array-mapper';
 import { MemoizedButton } from '../custom-components';
 
 function Todos() {

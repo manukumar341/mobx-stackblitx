@@ -114,8 +114,9 @@ class Store {
       todo: this.value,
       completed: false,
     };
-    this.todosArray.push(newEntry);
+
     this.undoActions.push({ type: 'add', data: newEntry.id });
+    this.todosArray.push(newEntry);
     this.historyPosition = this.undoActions.length;
   }
 
