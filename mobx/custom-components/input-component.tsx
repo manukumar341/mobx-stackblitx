@@ -30,4 +30,4 @@ export function Input(props: IInputProp) {
   );
 }
 
-export const MemoizedInput = React.memo(Input);
+export const MemoizedInput = Input;

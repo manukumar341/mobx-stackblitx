@@ -14,15 +14,17 @@ export const handleDeleteTodo = (e: { target: { id: string } }) => {
 };
 
 function ArrayMapper() {
-  const temp = store.todosArray.map((items: ITodo) => {
-    return (
-      <TodoView
-        todo={items}
-        key={items.id}
-        onClickCheckbox={clickOnCheckbox}
-        onClickDelete={handleDeleteTodo}
-      />
-    );
+  const temp = store.todosArray.map((item: ITodo) => {
+    if (item !== undefined) {
+      return (
+        <TodoView
+          todo={item}
+          key={item.id}
+          onClickCheckbox={clickOnCheckbox}
+          onClickDelete={handleDeleteTodo}
+        />
+      );
+    }
   });
   return <div>{temp}</div>;
 }

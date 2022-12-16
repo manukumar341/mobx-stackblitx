@@ -37,11 +37,18 @@ class Store {
     return { completed: completed, pending: pending };
   }
 
-  handleRedo() {}
+  handleRedo() {
+    const redoItem = this.redoActions.pop();
+    this.undoActions.push(redoItem);
+  }
   handleUndo() {
-    const todo=this.todosArray.pop()
-    this.undoActions.push(todo);
-
+    const undoItem = this.undoActions.pop();
+    this.redoActions.push(undoItem);
+    this.todosArray.find((item, index) => {
+      if (item.id === undoItem.id) {
+        this.todosArray[index] = undoItem;
+      }
+    });
   }
 
   handleOnchange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -56,6 +63,7 @@ class Store {
       completed: false,
     };
     this.todosArray.push(newEntry);
+    this.undoActions.push(newEntry);
     this.value = undefined;
   }
 
@@ -63,6 +71,7 @@ class Store {
     this.todosArray.find((items, index) => {
       if (items.id === id) {
         this.todosArray[index].completed = !this.todosArray[index].completed;
+        this.undoActions.push(this.todosArray[index]);
       }
     });
   }
@@ -70,7 +79,8 @@ class Store {
   handleDelete(id: number) {
     const deltedTodo = findTodoById(this.todosArray, id);
     const filteredTodos = filterTodo(this.todosArray, id);
-    this.todosArray = filteredTodos;
+    this.todosArray = filteredTodos.array;
+    this.undoActions.push(deltedTodo);
   }
 }
 

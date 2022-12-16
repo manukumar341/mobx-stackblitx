@@ -7,6 +7,10 @@ export const findTodoById = (data: Array<ITodo>, id: number) => {
 
 export const filterTodo = (data: Array<ITodo>, id: number) => {
   let filteredTodos: Array<ITodo> = [];
-  filteredTodos = data.filter((item) => id !== item.id);
-  return filteredTodos;
+  let index: number;
+  filteredTodos = data.filter((item, index) => {
+    index = index;
+    id !== item.id;
+  });
+  return { array: filteredTodos, index: index };
 };

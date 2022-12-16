@@ -27,13 +27,9 @@ function TodoView(props: IProps) {
         />
         {todo.todo}
       </div>
-      <MemoizedButton
-        name="delete"
-        value="X"
-        type={'button'}
-        id={todo.id.toString()}
-        onClick={onClickDelete}
-      />
+      <button id={todo.id.toString()} onClick={onClickDelete}>
+        X
+      </button>
     </StyledDiv>
   );
 }

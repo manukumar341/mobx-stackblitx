@@ -18,7 +18,7 @@ export function Button(props: IButtonProp) {
   );
 }
 
-export const MemoizedButton = React.memo(Button);
+export const MemoizedButton = Button;
 //
 const StyledButton = styled.button`
 border-radius:10px;
