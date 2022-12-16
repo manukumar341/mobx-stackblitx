@@ -3,6 +3,7 @@ import { storeComponent } from './store/store';
 import { ITodo } from './types';
 import TodoView from '../common-components/todo-view';
 import { observer } from 'mobx-react';
+import { toJS } from 'mobx';
 
 const store = storeComponent;
 export const clickOnCheckbox = (e: { target: { id: string } }) => {
@@ -14,7 +15,7 @@ export const handleDeleteTodo = (e: { target: { id: string } }) => {
 };
 
 function ArrayMapper() {
-  console.log(store.todosArray);
+  console.log(toJS(store.todosArray));
   const temp = store.todosArray.map((items: ITodo) => {
     return (
       <TodoView

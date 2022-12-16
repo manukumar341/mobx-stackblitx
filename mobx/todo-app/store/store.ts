@@ -1,4 +1,5 @@
 import { action, computed, makeObservable, observable } from 'mobx';
+import { toJS } from 'mobx';
 import { IDataProp, ITodo } from '../types';
 import { filterTodo, findTodoById } from './array-filters';
 
@@ -54,15 +55,37 @@ class Store {
   setTodoArrayByPrevius(action) {
     switch (action) {
       case 'add': {
-        this.todosArray.find((item, index) => {
+        // const findFun = (item: ITodo, index: number) => {
+        //   if (item.id === this.undoActions[this.historyPosition].data) {
+        //     this.todosArray.splice(index, 1);
+        //     this.undoActions[this.historyPosition] = {
+        //       type: 'delete',
+        //       data: item,
+        //     };
+        //   }
+        //   return item.id === this.undoActions[this.historyPosition].data;
+        // };
+
+        // this.todosArray.find((item, index) => findFun(item, index));
+
+        const findMyDog = (item: ITodo, index: number) => {
           if (item.id === this.undoActions[this.historyPosition].data) {
             this.todosArray.splice(index, 1);
-            this.undoActions[this.historyPosition] = {
-              data: item,
-              type: 'delete',
-            };
+            console.log(index);
+            console.log(this.todosArray[index]);
           }
-        });
+          return item.id === this.undoActions[this.historyPosition].data;
+        };
+
+        let todo = this.todosArray.find((todo, index) =>
+          findMyDog(todo, index)
+        );
+        console.log(todo);
+        this.undoActions[this.historyPosition] = {
+          type: 'delete',
+          data: todo,
+        };
+
         break;
       }
       case 'markedDone': {
@@ -77,12 +100,12 @@ class Store {
         break;
       }
       case 'delete': {
-        const item = this.undoActions[this.historyPosition];
-        this.todosArray.push(item.data);
+        this.todosArray.push(this.undoActions[this.historyPosition].data);
         this.undoActions[this.historyPosition] = {
-          data: item.data.id,
+          data: this.undoActions[this.historyPosition].data.id,
           type: 'add',
         };
+        console.log(toJS(this.undoActions));
         break;
       }
     }

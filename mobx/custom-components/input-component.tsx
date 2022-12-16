@@ -15,7 +15,6 @@ interface IInputProp {
 export function Input(props: IInputProp) {
   const { type, name, placeholder, onChange, value, onClick, id, checked } =
     props;
-  console.log(checked);
   return (
     <input
       id={id}

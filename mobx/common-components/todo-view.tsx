@@ -14,8 +14,6 @@ interface IProps {
 
 function TodoView(props: IProps) {
   const { todo, onClickCheckbox, onClickDelete, value, status } = props;
-  // console.log(todo.id.toString());
-  // const id = todo.id ? todo.id.toString() : Date.now().toString();
   return (
     <StyledDiv>
       <div>
@@ -26,7 +24,7 @@ function TodoView(props: IProps) {
           checked={status}
           value={value}
         />
-        {todo.todo}
+        {status ? <s>{todo.todo}</s> : todo.todo}
       </div>
       <MemoizedButton
         name="delete"
