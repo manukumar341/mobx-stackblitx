@@ -19,6 +19,7 @@ class Store {
       handleRedo: action,
       todosArray: observable,
       getStatus: computed,
+      isUndoRedoActive: computed,
       undoActions: observable,
       redoActions: observable,
       historyPosition: observable,
@@ -35,6 +36,15 @@ class Store {
     this.setTodoArrayByPrevius = this.setTodoArrayByPrevius.bind(this);
   }
 
+  get isUndoRedoActive() {
+    const undo = this.historyPosition === 0;
+    const redo = this.historyPosition === this.undoActions.length;
+    return {
+      undo: undo,
+      redo: redo,
+    };
+  }
+
   get getStatus() {
     const completed = this.todosArray.filter((item) => item.completed).length;
     const pending = this.todosArray.length - completed;
@@ -46,7 +56,6 @@ class Store {
       case 'add': {
         this.todosArray.find((item, index) => {
           if (item.id === this.undoActions[this.historyPosition].data) {
-            console.log(this.undoActions[this.historyPosition].data);
             this.todosArray.splice(index, 1);
             this.undoActions[this.historyPosition] = {
               data: item,
@@ -59,12 +68,10 @@ class Store {
       case 'markedDone': {
         this.todosArray.find((item, index) => {
           if (item.id === this.undoActions[this.historyPosition].data) {
-            const id = Date.now();
             this.todosArray.splice(index, 1, {
               ...this.todosArray[index],
               completed: !this.todosArray[index].completed,
             });
-            // this.undoActions[this.historyPosition].data = id;
           }
         });
         break;
@@ -108,7 +115,8 @@ class Store {
     this.todosArray.push(newEntry);
     this.undoActions.push({ type: 'add', data: newEntry.id });
     this.historyPosition = this.undoActions.length;
-    this.value = undefined;
+    // this.value = undefined;
+    // console.log(this.value);
   }
 
   handleOnclickOnCheckbox(id: number) {

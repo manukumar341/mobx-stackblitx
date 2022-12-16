@@ -16,7 +16,7 @@ function UserInput() {
     [store.handleOnchange]
   );
   const value = React.useMemo(() => store.value, [store.value]);
-  console.log(store.value);
+  console.log(storeComponent.value);
   return (
     <React.Fragment>
       <MemoizedInput

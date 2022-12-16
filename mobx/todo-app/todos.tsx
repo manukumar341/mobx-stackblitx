@@ -22,7 +22,7 @@ function Todos() {
         type="button"
         value="<"
         onClick={handleUndoOnclick}
-        disabled={store.historyPosition === 0 ? true : false}
+        disabled={store.isUndoRedoActive.undo}
       />
       <StyledSpan>
         <UserInput />
@@ -33,9 +33,7 @@ function Todos() {
         type="button"
         value=">"
         onClick={handleRedoOnclick}
-        disabled={
-          store.historyPosition === store.undoActions.length ? true : false
-        }
+        disabled={store.isUndoRedoActive.redo}
       />
       <StyledDiv>
         <StyledSpan>New: {store.getStatus.pending}</StyledSpan>
