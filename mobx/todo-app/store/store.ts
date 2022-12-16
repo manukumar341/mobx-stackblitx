@@ -55,39 +55,21 @@ class Store {
   setTodoArrayByPrevius(action) {
     switch (action) {
       case 'add': {
-        // const findFun = (item: ITodo, index: number) => {
-        //   if (item.id === this.undoActions[this.historyPosition].data) {
-        //     this.todosArray.splice(index, 1);
-        //     this.undoActions[this.historyPosition] = {
-        //       type: 'delete',
-        //       data: item,
-        //     };
-        //   }
-        //   return item.id === this.undoActions[this.historyPosition].data;
-        // };
-
-        // this.todosArray.find((item, index) => findFun(item, index));
-
-        const findMyDog = (item: ITodo, index: number) => {
+        const findTodo = (item: ITodo, index: number) => {
           if (item.id === this.undoActions[this.historyPosition].data) {
             this.todosArray.splice(index, 1);
-            console.log(index);
-            console.log(this.todosArray[index]);
           }
           return item.id === this.undoActions[this.historyPosition].data;
         };
 
-        let todo = this.todosArray.find((todo, index) =>
-          findMyDog(todo, index)
-        );
-        console.log(todo);
+        let todo = this.todosArray.find((todo, index) => findTodo(todo, index));
         this.undoActions[this.historyPosition] = {
           type: 'delete',
           data: todo,
         };
-
         break;
       }
+
       case 'markedDone': {
         this.todosArray.find((item, index) => {
           if (item.id === this.undoActions[this.historyPosition].data) {
@@ -99,29 +81,29 @@ class Store {
         });
         break;
       }
+
       case 'delete': {
         this.todosArray.push(this.undoActions[this.historyPosition].data);
         this.undoActions[this.historyPosition] = {
           data: this.undoActions[this.historyPosition].data.id,
           type: 'add',
         };
-        console.log(toJS(this.undoActions));
         break;
       }
     }
   }
 
   handleRedo() {
-    if (this.historyPosition < this.undoActions.length) {
-      this.setTodoArrayByPrevius(this.undoActions[this.historyPosition].type);
-      this.historyPosition = this.historyPosition + 1;
-    }
+    // if (this.historyPosition < this.undoActions.length) {
+    this.setTodoArrayByPrevius(this.undoActions[this.historyPosition].type);
+    this.historyPosition = this.historyPosition + 1;
+    // }
   }
   handleUndo() {
-    if (this.historyPosition > 0) {
-      this.historyPosition = this.historyPosition - 1;
-      this.setTodoArrayByPrevius(this.undoActions[this.historyPosition].type);
-    }
+    // if (this.historyPosition > 0) {
+    this.historyPosition = this.historyPosition - 1;
+    this.setTodoArrayByPrevius(this.undoActions[this.historyPosition].type);
+    // }
   }
 
   handleOnchange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -138,8 +120,6 @@ class Store {
     this.todosArray.push(newEntry);
     this.undoActions.push({ type: 'add', data: newEntry.id });
     this.historyPosition = this.undoActions.length;
-    // this.value = undefined;
-    // console.log(this.value);
   }
 
   handleOnclickOnCheckbox(id: number) {
