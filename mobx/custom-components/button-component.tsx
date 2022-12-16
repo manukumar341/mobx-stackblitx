@@ -7,12 +7,19 @@ interface IButtonProp {
   onClick?: () => void;
   value: string;
   id?: string;
+  disabled?: boolean;
 }
 
 export function Button(props: IButtonProp) {
-  const { name, type, onClick, value, id } = props;
+  const { name, type, onClick, value, id, disabled } = props;
   return (
-    <button name={name} type={type} onClick={onClick} id={id}>
+    <button
+      name={name}
+      type={type}
+      onClick={onClick}
+      id={id}
+      disabled={disabled}
+    >
       {value}
     </button>
   );
