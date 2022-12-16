@@ -45,7 +45,7 @@ class Store {
     switch (action) {
       case 'add': {
         const todo = this.undoActions[this.historyPosition];
-        const id = this.undoActions[this.historyPosition].data.id;
+        const id = this.undoActions[this.historyPosition].data;
         this.todosArray.find((item, index) => {
           if (item.id === id) {
             this.todosArray.splice(index, 1);
@@ -75,7 +75,10 @@ class Store {
       case 'delete': {
         const item = this.undoActions[this.historyPosition];
         this.todosArray.push(item.data);
-        this.undoActions[this.historyPosition] = { ...item, type: 'add' };
+        this.undoActions[this.historyPosition] = {
+          data: item.data.id,
+          type: 'add',
+        };
         break;
       }
     }
