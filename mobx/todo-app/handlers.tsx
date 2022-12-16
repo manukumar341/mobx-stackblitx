@@ -19,7 +19,7 @@ function ArrayMapper() {
     return (
       <TodoView
         todo={items}
-        status={items.completed ? true : false}
+        status={items.completed}
         key={items.id}
         onClickCheckbox={clickOnCheckbox}
         onClickDelete={handleDeleteTodo}
