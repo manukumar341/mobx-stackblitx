@@ -62,11 +62,10 @@ class Store {
           if (item.id === this.undoActions[this.historyPosition].data) {
             const id = Date.now();
             this.todosArray.splice(index, 1, {
-              id: id,
-              todo: item.todo,
+              ...this.todosArray[index],
               completed: !this.todosArray[index].completed,
             });
-            this.undoActions[this.historyPosition].data = id;
+            // this.undoActions[this.historyPosition].data = id;
           }
         });
         break;
