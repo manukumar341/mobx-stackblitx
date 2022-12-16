@@ -18,7 +18,6 @@ export function Input(props: IInputProp) {
 
   return (
     <input
-      id={id}
       name={name}
       type={type}
       placeholder={placeholder}

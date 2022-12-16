@@ -18,7 +18,7 @@ function TodoView(props: IProps) {
   // const id = todo.id ? todo.id.toString() : Date.now().toString();
   return (
     <StyledDiv>
-      <div key={todo.id}>
+      <div>
         <MemoizedInput
           type="checkbox"
           id={todo.id.toString()}

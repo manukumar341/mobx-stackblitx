@@ -14,11 +14,12 @@ export const handleDeleteTodo = (e: { target: { id: string } }) => {
 };
 
 function ArrayMapper() {
+  console.log(store.todosArray);
   const temp = store.todosArray.map((items: ITodo) => {
     return (
       <TodoView
         todo={items}
-        status={items.completed}
+        status={items.completed ? true : false}
         key={items.id}
         onClickCheckbox={clickOnCheckbox}
         onClickDelete={handleDeleteTodo}
