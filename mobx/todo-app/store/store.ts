@@ -50,7 +50,7 @@ class Store {
           if (item.id === id) {
             this.todosArray.splice(index, 1);
             this.undoActions[this.historyPosition] = {
-              ...todo,
+              data: item,
               type: 'delete',
             };
           }
@@ -60,11 +60,10 @@ class Store {
       case 'markedDone': {
         this.todosArray.find((item, index) => {
           if (item.id === this.undoActions[this.historyPosition].data) {
-            const todo = this.todosArray[index];
             const id = Date.now();
             this.todosArray.splice(index, 1, {
               id: id,
-              todo: todo.todo,
+              todo: item.todo,
               completed: !this.todosArray[index].completed,
             });
             this.undoActions[this.historyPosition].data = id;
