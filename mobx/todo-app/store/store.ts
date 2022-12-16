@@ -7,7 +7,6 @@ class Store {
   value: string;
   todosArray: Array<ITodo>;
   undoActions: any;
-  redoActions: any;
   historyPosition: number;
 
   constructor(value?: string) {
@@ -22,7 +21,6 @@ class Store {
       getStatus: computed,
       isUndoRedoActive: computed,
       undoActions: observable,
-      redoActions: observable,
       historyPosition: observable,
     });
 
@@ -32,7 +30,6 @@ class Store {
     this.handleRedo = this.handleRedo.bind(this);
     this.todosArray = [];
     this.undoActions = [];
-    this.redoActions = [];
     this.historyPosition = this.undoActions.length;
     this.setTodoArrayByPrevius = this.setTodoArrayByPrevius.bind(this);
   }
