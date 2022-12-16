@@ -84,7 +84,7 @@ class Store {
   }
 
   handleRedo() {
-    if (this.historyPosition < this.todosArray.length - 1) {
+    if (this.historyPosition < this.undoActions.length) {
       this.historyPosition = this.historyPosition + 1;
       this.setTodoArrayByPrevius(this.undoActions[this.historyPosition].type);
     }
