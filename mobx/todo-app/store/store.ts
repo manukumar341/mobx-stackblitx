@@ -44,10 +44,9 @@ class Store {
   setTodoArrayByPrevius(action) {
     switch (action) {
       case 'add': {
-        const todo = this.undoActions[this.historyPosition];
-        const id = this.undoActions[this.historyPosition].data;
         this.todosArray.find((item, index) => {
-          if (item.id === id) {
+          if (item.id === this.undoActions[this.historyPosition].data) {
+            console.log(this.undoActions[this.historyPosition].data);
             this.todosArray.splice(index, 1);
             this.undoActions[this.historyPosition] = {
               data: item,
@@ -84,8 +83,8 @@ class Store {
 
   handleRedo() {
     if (this.historyPosition < this.undoActions.length) {
-      this.historyPosition = this.historyPosition + 1;
       this.setTodoArrayByPrevius(this.undoActions[this.historyPosition].type);
+      this.historyPosition = this.historyPosition + 1;
     }
   }
   handleUndo() {
