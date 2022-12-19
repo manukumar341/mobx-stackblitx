@@ -49,7 +49,7 @@ class Store {
     return { completed: completed, pending: pending };
   }
 
-  setTodoArrayByPrevius(action) {
+  setTodoArrayByPrevius(action:string) {
     switch (action) {
       case 'add': {
         const findTodo = (item: ITodo, index: number) => {

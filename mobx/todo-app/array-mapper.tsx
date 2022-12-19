@@ -1,7 +1,7 @@
 import React = require('react');
 import { storeComponent } from './store/store';
 import { ITodo } from './types';
-import TodoView from '../common-components/todo-view';
+import TodoView from '../common/todo-view';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 
@@ -15,7 +15,6 @@ export const handleDeleteTodo = (e: { target: { id: string } }) => {
 };
 
 function ArrayMapper() {
-  console.log(toJS(store.todosArray));
   const temp = store.todosArray.map((items: ITodo) => {
     return (
       <TodoView
