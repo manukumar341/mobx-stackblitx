@@ -49,7 +49,7 @@ class Store {
     return { completed: completed, pending: pending };
   }
 
-  setTodoArrayByPrevius(action:string) {
+  setTodoArrayByPrevius(action: string) {
     switch (action) {
       case 'add': {
         const findTodo = (item: ITodo, index: number) => {
@@ -114,6 +114,9 @@ class Store {
       todo: this.value,
       completed: false,
     };
+    if (this.historyPosition !== this.undoActions.length) {
+      this.undoActions.splice(this.historyPosition);
+    }
 
     this.undoActions.push({ type: 'add', data: newEntry.id });
     this.todosArray.push(newEntry);
